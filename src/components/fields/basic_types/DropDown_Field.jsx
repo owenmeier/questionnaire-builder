@@ -1,20 +1,20 @@
-import React from "react";
+import React from "react"
 
-const QuestionField = ({ field, onUpdate, onDelete, isPreview }) => {
+const SelectionField = ({ field, onUpdate, onDelete, isPreview }) => {
     const addOption = () => {
-        onUpdate("options", [...field.options, ""]);
-    };
+        onUpdate("options", [...field.options, ""])
+    }
 
     const updateOption = (index, value) => {
-        const updatedOptions = [...field.options];
-        updatedOptions[index] = value;
-        onUpdate("options", updatedOptions);
-    };
+        const updatedOptions = [...field.options]
+        updatedOptions[index] = value
+        onUpdate("options", updatedOptions)
+    }
 
     const removeOption = (index) => {
-        const updatedOptions = field.options.filter((_, i) => i !== index);
-        onUpdate("options", updatedOptions);
-    };
+        const updatedOptions = field.options.filter((_, i) => i !== index)
+        onUpdate("options", updatedOptions)
+    }
 
     return (
         <div className="p-4 border rounded">
@@ -36,15 +36,22 @@ const QuestionField = ({ field, onUpdate, onDelete, isPreview }) => {
                     </button>
                 )}
             </div>
+            <select
+                className="px-3 py-2 border rounded w-full"
+                onChange={(e) => onUpdate("selected", e.target.value)}
+                value={field.selected || ""}
+                disabled={isPreview}
+            >
+                <option value="">Select an option</option>
+                {field.options.map((option, index) => (
+                    <option key={index} value={option}>
+                        {option}
+                    </option>
+                ))}
+            </select>
             <div>
                 {field.options.map((option, index) => (
-                    <div key={index} className="flex items-center space-x-2">
-                        <input
-                            type={field.type === "checkbox" ? "checkbox" : "radio"}
-                            name={`question-${field.id}`}
-                            className="mr-2"
-                            disabled
-                        />
+                    <div key={index} className="flex items-center mt-2">
                         <input
                             type="text"
                             value={option}
@@ -73,7 +80,7 @@ const QuestionField = ({ field, onUpdate, onDelete, isPreview }) => {
                 </button>
             )}
         </div>
-    );
-};
+    )
+}
 
-export default QuestionField;
+export default SelectionField

@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 
 const InputField = ({ field, onUpdate, onDelete, isPreview }) => {
     return (
@@ -30,7 +30,7 @@ const InputField = ({ field, onUpdate, onDelete, isPreview }) => {
                 disabled={isPreview} 
             />
         </div>
-    );
-};
+    )
+}
 
-export default InputField;
+export default InputField

@@ -1,46 +1,13 @@
-import React, { useState } from "react";
-import InputField from "./fields/InputField";
-import QuestionField from "./fields/QuestionField";
-import SelectionField from "./fields/SelectionField";
-
-
-const fieldTypes = {
-    input: {
-        label: "Input Field",
-        component: InputField,
-        defaultProps: { type: "input", question: "New Input Field", answer: "" },
-    },
-    question: {
-        label: "Multiple Choice",
-        component: QuestionField,
-        defaultProps: {
-            type: "question",
-            question: "New Multiple Choice Question",
-            options: ["Option 1", "Option 2"],
-            selected: [],
-        },
-    },
-    selection: {
-        label: "Dropdown",
-        component: SelectionField,
-        defaultProps: {
-            type: "selection",
-            question: "New Dropdown Question",
-            options: ["Option 1", "Option 2"],
-            selected: null,
-        },
-    },
-
-};
+import React, { useState } from "react"
+import fieldTypes from './fields/fieldTypes-config'
 
 const FormBuilder = ({ formData, setFormData }) => {
-    const [isPreview, setIsPreview] = useState(false);
+    const [isPreview, setIsPreview] = useState(false)
 
+    const togglePreview = () => setIsPreview(!isPreview)
 
-    const togglePreview = () => setIsPreview(!isPreview);
-
-    const addField = (type) => {
-        const fieldTemplate = fieldTypes[type]?.defaultProps;
+    const addField = (fieldType) => {
+        const fieldTemplate = fieldTypes[fieldType]?.defaultProps;
         if (fieldTemplate) {
             setFormData([...formData, { ...fieldTemplate, id: Date.now() }]);
         } else {
@@ -48,22 +15,21 @@ const FormBuilder = ({ formData, setFormData }) => {
         }
     };
 
-
     const updateField = (id, key, value) => {
-        setFormData(
-            formData.map((field) =>
+        setFormData((prevFormData) =>
+            prevFormData.map((field) =>
                 field.id === id ? { ...field, [key]: value } : field
             )
         );
     };
 
     const deleteField = (id) => {
-        setFormData(formData.filter((field) => field.id !== id));
-    };
+        setFormData(formData.filter((field) => field.id !== id))
+    }
 
     return (
         <div className="p-4 bg-white rounded shadow">
-            <div className=" justify-between mb-4">
+            <div className="justify-between mb-4">
                 <div className="grid gap-2">
                     <button
                         onClick={togglePreview}
@@ -85,21 +51,20 @@ const FormBuilder = ({ formData, setFormData }) => {
                             ))}
                         </div>
                     )}
-
                 </div>
-
             </div>
-
 
             <div>
                 {formData.map((field) => {
-                    const FieldComponent = fieldTypes[field.type]?.component;
+                    const FieldComponent = fieldTypes[field.fieldType]?.component;
                     return (
                         FieldComponent && (
                             <div key={field.id} className="mb-4">
                                 <FieldComponent
                                     field={field}
-                                    onUpdate={(key, value) => !isPreview && updateField(field.id, key, value)}
+                                    onUpdate={(key, value) =>
+                                        !isPreview && updateField(field.id, key, value)
+                                    }
                                     onDelete={() => !isPreview && deleteField(field.id)}
                                     isPreview={isPreview}
                                 />
@@ -108,8 +73,9 @@ const FormBuilder = ({ formData, setFormData }) => {
                     );
                 })}
             </div>
-        </div>
-    );
-};
 
-export default FormBuilder;
+        </div>
+    )
+}
+
+export default FormBuilder
