@@ -16,6 +16,7 @@ const InputField = ({ field, onUpdate, onDelete, isPreview }) => {
                     className="px-3 py-2 border rounded w-full"
                     disabled={isPreview} 
                 />
+                {/*Delete btn - Available only in EDIT MODE*/}
                 {!isPreview && (
                     <button
                         onClick={onDelete}
@@ -25,6 +26,7 @@ const InputField = ({ field, onUpdate, onDelete, isPreview }) => {
                     </button>
                 )}
             </div>
+            {/* Answer input - Available only in PREVIEW MODE */}
             <input
                 id={`answer-uuid-${uniqueId}`}
                 type="text"

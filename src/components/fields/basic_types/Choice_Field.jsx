@@ -70,7 +70,7 @@ const ChoiceField = ({ field, onUpdate, onDelete, isPreview }) => {
             )}
 
             <div>
-                {/* Filter out options with no text only in preview mode */}
+                {/* Filter out options with no text only in PREVIEW MODE*/}
                 {field.options
                     .filter((option) => !isPreview || option.value.trim() !== "")
                     .map((option) => (
@@ -78,7 +78,7 @@ const ChoiceField = ({ field, onUpdate, onDelete, isPreview }) => {
                             key={option.id}
                             className="flex items-center space-x-2 space-y-1"
                         >
-                            {/* Radio or Checkbox Input */}
+
                             <input
                                 id={`option-${option.id}`}
                                 type={field.choiceType}
@@ -98,6 +98,9 @@ const ChoiceField = ({ field, onUpdate, onDelete, isPreview }) => {
                                     isPreview ? "px-3 py-2 border rounded" : ""
                                 }`}
                             >
+                                {/*PREVIEW MODE => Turns into span */}
+                                {/*EDIT MODE => Turns into Input for editing */}
+                                
                                 {isPreview ? (
                                     <span>{option.value}</span>
                                 ) : (
@@ -112,6 +115,8 @@ const ChoiceField = ({ field, onUpdate, onDelete, isPreview }) => {
                                     />
                                 )}
                             </label>
+
+                            {/*Remove Btn - Available only in EDIT MODE */}
                             {!isPreview && (
                                 <button
                                     onClick={() =>

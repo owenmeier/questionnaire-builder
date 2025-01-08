@@ -1,9 +1,9 @@
 import React from "react";
-import { v4 as uuidv4 } from "uuid"; // Import the uuid library
+import { v4 as uuidv4 } from "uuid"; 
 
 const SelectionField = ({ field, onUpdate, onDelete, isPreview }) => {
     const addOption = () => {
-        const newOption = { id: uuidv4(), value: "" }; // Generate a unique ID for each option
+        const newOption = { id: uuidv4(), value: "" }; 
         onUpdate("options", [...field.options, newOption]);
     };
 
@@ -13,7 +13,6 @@ const SelectionField = ({ field, onUpdate, onDelete, isPreview }) => {
         );
         onUpdate("options", updatedOptions);
 
-        // If the selected option's value is updated, ensure the selected ID stays consistent
         if (field.selected === id) {
             onUpdate("selected", id);
         }
@@ -22,16 +21,14 @@ const SelectionField = ({ field, onUpdate, onDelete, isPreview }) => {
     const removeOption = (id) => {
         const updatedOptions = field.options.filter((option) => option.id !== id);
         onUpdate("options", updatedOptions);
-
-        // Reset selected if the removed option was the selected one
         if (field.selected === id) {
             onUpdate("selected", "");
         }
     };
 
     const handleSelectionChange = (e) => {
-        const selectedId = e.target.value; // Capture the selected option's ID
-        onUpdate("selected", selectedId || ""); // Update `selected` with the option's ID
+        const selectedId = e.target.value;
+        onUpdate("selected", selectedId || ""); 
     };
 
     return (
@@ -43,7 +40,7 @@ const SelectionField = ({ field, onUpdate, onDelete, isPreview }) => {
                     onChange={(e) => onUpdate("question", e.target.value)}
                     placeholder="Enter question"
                     className="px-3 py-2 border rounded w-full"
-                    disabled={isPreview} // Editable only in edit mode
+                    disabled={isPreview} 
                 />
                 {!isPreview && (
                     <button
@@ -55,12 +52,11 @@ const SelectionField = ({ field, onUpdate, onDelete, isPreview }) => {
                 )}
             </div>
 
-            {/* Dropdown - Selectable only in Preview Mode */}
             <select
                 className="px-3 py-2 border rounded w-full"
                 onChange={handleSelectionChange}
-                value={field.selected || ""} // Tie the value to the selected ID
-                disabled={!isPreview} // Dropdown disabled in edit mode
+                value={field.selected || ""} 
+                disabled={!isPreview} 
             >
                 <option value="">Select an option</option>
                 {field.options.map((option) => (
@@ -70,7 +66,7 @@ const SelectionField = ({ field, onUpdate, onDelete, isPreview }) => {
                 ))}
             </select>
 
-            {/* Options Editor - Editable only in Edit Mode */}
+            {/* Options Editor - Editable only in EDIT MODE */}
             {!isPreview && (
                 <div>
                     {field.options.map((option) => (
@@ -93,7 +89,7 @@ const SelectionField = ({ field, onUpdate, onDelete, isPreview }) => {
                 </div>
             )}
 
-            {/* Add Option Button - Available only in Edit Mode */}
+            {/* Add Option Button - Available only in EDIT MODE */}
             {!isPreview && (
                 <button
                     onClick={addOption}
