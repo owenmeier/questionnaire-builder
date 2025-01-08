@@ -1,10 +1,14 @@
 import React from "react"
+import { v4 as uuidv4 } from 'uuid';
 
 const InputField = ({ field, onUpdate, onDelete, isPreview }) => {
+    const uniqueId = field.id || uuidv4();
+
     return (
         <div className="p-4 border rounded">
             <div className="flex justify-between mb-2">
                 <input
+                    id={`input-uuid-${uniqueId}`}
                     type="text"
                     value={field.question}
                     onChange={(e) => onUpdate("question", e.target.value)}
@@ -22,12 +26,13 @@ const InputField = ({ field, onUpdate, onDelete, isPreview }) => {
                 )}
             </div>
             <input
+                id={`answer-uuid-${uniqueId}`}
                 type="text"
                 value={field.answer || ""}
                 onChange={(e) => onUpdate("answer", e.target.value)}
                 placeholder="Answer here..."
                 className="px-3 py-2 border rounded w-full"
-                disabled={isPreview} 
+                disabled={!isPreview} 
             />
         </div>
     )

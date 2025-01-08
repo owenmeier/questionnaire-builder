@@ -1,31 +1,33 @@
-import React, { useState } from "react"
-import fieldTypes from './fields/fieldTypes-config'
+import { generateUniqueId, initializeField } from "../utils/initializedFieldOptions";
+import fieldTypes from "./fields/fieldTypes-config";
+import React, { useState } from "react";
 
 const FormBuilder = ({ formData, setFormData }) => {
-    const [isPreview, setIsPreview] = useState(false)
+    const [isPreview, setIsPreview] = useState(false);
 
-    const togglePreview = () => setIsPreview(!isPreview)
+    const togglePreview = () => setIsPreview(!isPreview);
 
-    const addField = (fieldType) => {
-        const fieldTemplate = fieldTypes[fieldType]?.defaultProps;
+    const addField = (type) => {
+        const fieldTemplate = fieldTypes[type]?.defaultProps;
         if (fieldTemplate) {
-            setFormData([...formData, { ...fieldTemplate, id: Date.now() }]);
+            const initializedField = initializeField({ ...fieldTemplate, id: generateUniqueId() });
+            setFormData([...formData, initializedField]);
         } else {
             alert("Unknown field type");
         }
     };
 
     const updateField = (id, key, value) => {
-        setFormData((prevFormData) =>
-            prevFormData.map((field) =>
+        setFormData(
+            formData.map((field) =>
                 field.id === id ? { ...field, [key]: value } : field
             )
         );
     };
 
     const deleteField = (id) => {
-        setFormData(formData.filter((field) => field.id !== id))
-    }
+        setFormData(formData.filter((field) => field.id !== id));
+    };
 
     return (
         <div className="p-4 bg-white rounded shadow">
@@ -63,7 +65,7 @@ const FormBuilder = ({ formData, setFormData }) => {
                                 <FieldComponent
                                     field={field}
                                     onUpdate={(key, value) =>
-                                        !isPreview && updateField(field.id, key, value)
+                                        updateField(field.id, key, value) 
                                     }
                                     onDelete={() => !isPreview && deleteField(field.id)}
                                     isPreview={isPreview}
@@ -73,9 +75,8 @@ const FormBuilder = ({ formData, setFormData }) => {
                     );
                 })}
             </div>
-
         </div>
-    )
-}
+    );
+};
 
-export default FormBuilder
+export default FormBuilder;

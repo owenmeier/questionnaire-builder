@@ -1,32 +1,14 @@
+import React from "react";
+import { v4 as uuidv4 } from "uuid";
+
 const ChoiceField = ({ field, onUpdate, onDelete, isPreview }) => {
-    // Normalize options to ensure every option has an id and value
-
-    // Helper function to generate unique IDs
-    const generateUniqueId = () => `id-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-
-    const normalizeOptions = (options) => {
-        return options.map((option) =>
-            typeof option === "string"
-                ? { id: generateUniqueId(), value: option } // Convert string to object
-                : option // Keep as-is if already an object
-        );
-    };
-    
-    const normalizedOptions = normalizeOptions(field.options);
-
-    // Update options in the parent if normalization was required
-    if (normalizedOptions.length !== field.options.length ||
-        !normalizedOptions.every(option => option.id)) {
-        onUpdate("options", normalizedOptions);
-    }
-
     const addOption = () => {
-        const newOption = { id: generateUniqueId(), value: "" };
-        onUpdate("options", [...normalizedOptions, newOption]);
+        const newOption = { id: uuidv4(), value: "" };
+        onUpdate("options", [...field.options, newOption]);
     };
 
     const updateOption = (id, value) => {
-        const updatedOptions = normalizedOptions.map((option) =>
+        const updatedOptions = field.options.map((option) =>
             option.id === id ? { ...option, value } : option
         );
         onUpdate("options", updatedOptions);
@@ -70,6 +52,7 @@ const ChoiceField = ({ field, onUpdate, onDelete, isPreview }) => {
                     </button>
                 )}
             </div>
+
             {!isPreview && (
                 <div className="mb-4">
                     <label className="block mb-1 text-sm font-medium">
@@ -85,48 +68,69 @@ const ChoiceField = ({ field, onUpdate, onDelete, isPreview }) => {
                     </select>
                 </div>
             )}
+
             <div>
-                {normalizedOptions.map((option) => (
-                    <div key={option.id} className="flex items-center space-x-2 space-y-1">
-                        <input
-                            id={`option-${option.id}`}
-                            type={field.choiceType}
-                            name={`question-${field.id}`}
-                            className="mr-2"
-                            checked={
-                                field.choiceType === "checkbox"
-                                    ? field.selected?.includes(option.id)
-                                    : field.selected === option.id
-                            }
-                            onChange={() => handleSelectionChange(option.id)}
-                            disabled={isPreview}
-                        />
-                        <label htmlFor={`option-${option.id}`} className="w-full">
+                {/* Filter out options with no text only in preview mode */}
+                {field.options
+                    .filter((option) => !isPreview || option.value.trim() !== "")
+                    .map((option) => (
+                        <div
+                            key={option.id}
+                            className="flex items-center space-x-2 space-y-1"
+                        >
+                            {/* Radio or Checkbox Input */}
                             <input
-                                type="text"
-                                value={option.value}
-                                onChange={(e) => updateOption(option.id, e.target.value)}
-                                placeholder="Option text"
-                                className="px-3 py-2 border rounded w-full"
-                                disabled={isPreview}
-                            />
-                        </label>
-                        {!isPreview && (
-                            <button
-                                onClick={() =>
-                                    onUpdate(
-                                        "options",
-                                        normalizedOptions.filter((opt) => opt.id !== option.id)
-                                    )
+                                id={`option-${option.id}`}
+                                type={field.choiceType}
+                                name={`question-${field.id}`}
+                                className="mr-2"
+                                checked={
+                                    field.choiceType === "checkbox"
+                                        ? field.selected?.includes(option.id)
+                                        : field.selected === option.id
                                 }
-                                className="ml-2 px-3 py-1 bg-red-500 text-white rounded"
+                                onChange={() => handleSelectionChange(option.id)}
+                                disabled={!isPreview}
+                            />
+                            <label
+                                htmlFor={`option-${option.id}`}
+                                className={`w-full ${
+                                    isPreview ? "px-3 py-2 border rounded" : ""
+                                }`}
                             >
-                                Remove
-                            </button>
-                        )}
-                    </div>
-                ))}
+                                {isPreview ? (
+                                    <span>{option.value}</span>
+                                ) : (
+                                    <input
+                                        type="text"
+                                        value={option.value}
+                                        onChange={(e) =>
+                                            updateOption(option.id, e.target.value)
+                                        }
+                                        placeholder="Option text"
+                                        className="px-3 py-2 border rounded w-full"
+                                    />
+                                )}
+                            </label>
+                            {!isPreview && (
+                                <button
+                                    onClick={() =>
+                                        onUpdate(
+                                            "options",
+                                            field.options.filter(
+                                                (opt) => opt.id !== option.id
+                                            )
+                                        )
+                                    }
+                                    className="ml-2 px-3 py-1 bg-red-500 text-white rounded"
+                                >
+                                    Remove
+                                </button>
+                            )}
+                        </div>
+                    ))}
             </div>
+
             {!isPreview && (
                 <button
                     onClick={addOption}
