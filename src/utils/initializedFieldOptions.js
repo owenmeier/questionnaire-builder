@@ -9,11 +9,13 @@ export const initializeFieldOptions = (options) => {
     );
 };
 
-
 export const initializeField = (field) => {
     return {
         ...field,
-        options: initializeFieldOptions(field.options || []),
+        ...(field.fieldType !== "input" && {
+            options: initializeFieldOptions(field.options || []),
+        }),
     };
 };
+
 

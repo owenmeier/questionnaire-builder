@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import FormBuilder from "./components/FormBuilder"
+import FormBuilder from "./components/FormBuilderMain"
 
 const App = () => {
     const [formData, setFormData] = useState([])
@@ -22,10 +22,6 @@ const App = () => {
         a.href = url
         a.download = "form-data.json"
         a.click()
-    }
-
-    const consoleData = () => {
-        console.log(formData)
     }
 
     return (
@@ -56,12 +52,6 @@ const App = () => {
                 </div>
             </div>
             <FormBuilder formData={formData} setFormData={setFormData} />
-
-            <button
-                className="my-2 px-4 py-2 bg-black text-white rounded cursor-pointer"
-                onClick={consoleData}>
-                    log data
-            </button>
         </div>
     )
 }

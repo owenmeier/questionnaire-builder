@@ -1,9 +1,10 @@
 import React from "react";
-import { v4 as uuidv4 } from "uuid"; 
+import { v4 as uuidv4 } from "uuid";
+import { PLUSOPTION_ICON, TRASHCAN_ICON, TRASHCANTWO_ICON } from "../../../assets/icons";
 
 const SelectionField = ({ field, onUpdate, onDelete, isPreview }) => {
     const addOption = () => {
-        const newOption = { id: uuidv4(), value: "" }; 
+        const newOption = { id: uuidv4(), value: "" };
         onUpdate("options", [...field.options, newOption]);
     };
 
@@ -28,35 +29,35 @@ const SelectionField = ({ field, onUpdate, onDelete, isPreview }) => {
 
     const handleSelectionChange = (e) => {
         const selectedId = e.target.value;
-        onUpdate("selected", selectedId || ""); 
+        onUpdate("selected", selectedId || "");
     };
 
     return (
-        <div className="p-4 border rounded">
+        <div className="p-4 bg-white shadow rounded-lg">
             <div className="flex justify-between mb-2">
                 <input
                     type="text"
                     value={field.question}
                     onChange={(e) => onUpdate("question", e.target.value)}
                     placeholder="Enter question"
-                    className="px-3 py-2 border rounded w-full"
-                    disabled={isPreview} 
+                    className="px-3 py-2 w-full focus:outline-black/30"
+                    disabled={isPreview}
                 />
                 {!isPreview && (
                     <button
                         onClick={onDelete}
-                        className="ml-2 px-3 py-1 bg-red-500 text-white rounded"
+                        className="ml-2 px-3 py-1 text-black/70 hover:text-black "
                     >
-                        Delete
+                        <TRASHCAN_ICON />
                     </button>
                 )}
             </div>
 
             <select
-                className="px-3 py-2 border rounded w-full"
+                className="w-full px-4 py-3 shadow border border-black/10 rounded-lg"
                 onChange={handleSelectionChange}
-                value={field.selected || ""} 
-                disabled={!isPreview} 
+                value={field.selected || ""}
+                disabled={!isPreview}
             >
                 <option value="">Select an option</option>
                 {field.options.map((option) => (
@@ -70,19 +71,19 @@ const SelectionField = ({ field, onUpdate, onDelete, isPreview }) => {
             {!isPreview && (
                 <div>
                     {field.options.map((option) => (
-                        <div key={option.id} className="flex items-center mt-2">
+                        <div key={option.id} className="flex items-center px-3 py-1 my-1 shadow border border-black/10 rounded-lg">
                             <input
                                 type="text"
                                 value={option.value}
                                 onChange={(e) => updateOption(option.id, e.target.value)}
                                 placeholder="Option text"
-                                className="px-3 py-2 border rounded w-full"
+                                className="px-3 py-2 w-full focus:outline-black/30"
                             />
                             <button
                                 onClick={() => removeOption(option.id)}
-                                className="ml-2 px-3 py-1 bg-red-500 text-white rounded"
+                                className="ml-2 px-3 py-1 text-black/70 hover:text-black "
                             >
-                                Remove
+                                <TRASHCANTWO_ICON />
                             </button>
                         </div>
                     ))}
@@ -93,9 +94,12 @@ const SelectionField = ({ field, onUpdate, onDelete, isPreview }) => {
             {!isPreview && (
                 <button
                     onClick={addOption}
-                    className="mt-2 px-3 py-1 bg-indigo-500 text-white rounded"
+                    className="mt-2 px-2 py-1 bg-indigo-500 text-white rounded-lg "
                 >
+                    <div className="flex items-center">
                     Add Option
+                    <PLUSOPTION_ICON className="h-9 w-9 pl-2"/>
+                    </div>
                 </button>
             )}
         </div>

@@ -1,5 +1,6 @@
 import React from "react";
 import { v4 as uuidv4 } from "uuid";
+import { PLUSOPTION_ICON, TRASHCAN_ICON, TRASHCANTWO_ICON } from "../../../assets/icons";
 
 const ChoiceField = ({ field, onUpdate, onDelete, isPreview }) => {
     const addOption = () => {
@@ -33,22 +34,22 @@ const ChoiceField = ({ field, onUpdate, onDelete, isPreview }) => {
     };
 
     return (
-        <div className="p-4 border rounded">
+        <div className="p-4 bg-white shadow rounded-lg">
             <div className="flex justify-between mb-2">
                 <input
                     type="text"
                     value={field.question}
                     onChange={(e) => onUpdate("question", e.target.value)}
                     placeholder="Enter question"
-                    className="px-3 py-2 border rounded w-full"
+                    className="px-3 py-2 focus:outline-black/30 w-full"
                     disabled={isPreview}
                 />
                 {!isPreview && (
                     <button
                         onClick={onDelete}
-                        className="ml-2 px-3 py-1 bg-red-500 text-white rounded"
+                        className="ml-2 px-3 py-1 text-black/70 hover:text-black"
                     >
-                        Delete
+                        <TRASHCAN_ICON />
                     </button>
                 )}
             </div>
@@ -61,7 +62,7 @@ const ChoiceField = ({ field, onUpdate, onDelete, isPreview }) => {
                     <select
                         value={field.choiceType}
                         onChange={(e) => handleChoiceTypeChange(e.target.value)}
-                        className="px-3 py-2 border rounded w-full"
+                        className="w-full px-4 py-3 shadow border border-black/10 rounded-lg"
                     >
                         <option value="radio">Single Choice (Radio)</option>
                         <option value="checkbox">Multiple Choice (Checkbox)</option>
@@ -76,7 +77,7 @@ const ChoiceField = ({ field, onUpdate, onDelete, isPreview }) => {
                     .map((option) => (
                         <div
                             key={option.id}
-                            className="flex items-center space-x-2 space-y-1"
+                            className="flex items-center px-3 py-1 my-1 shadow border border-black/10 rounded-lg"
                         >
 
                             <input
@@ -94,13 +95,12 @@ const ChoiceField = ({ field, onUpdate, onDelete, isPreview }) => {
                             />
                             <label
                                 htmlFor={`option-${option.id}`}
-                                className={`w-full ${
-                                    isPreview ? "px-3 py-2 border rounded" : ""
-                                }`}
+                                className={`w-full ${isPreview ? "px-3 py-2  " : ""
+                                    }`}
                             >
                                 {/*PREVIEW MODE => Turns into span */}
                                 {/*EDIT MODE => Turns into Input for editing */}
-                                
+
                                 {isPreview ? (
                                     <span>{option.value}</span>
                                 ) : (
@@ -111,7 +111,7 @@ const ChoiceField = ({ field, onUpdate, onDelete, isPreview }) => {
                                             updateOption(option.id, e.target.value)
                                         }
                                         placeholder="Option text"
-                                        className="px-3 py-2 border rounded w-full"
+                                        className="px-3 py-2 w-full focus:outline-black/30"
                                     />
                                 )}
                             </label>
@@ -127,9 +127,9 @@ const ChoiceField = ({ field, onUpdate, onDelete, isPreview }) => {
                                             )
                                         )
                                     }
-                                    className="ml-2 px-3 py-1 bg-red-500 text-white rounded"
+                                    className="ml-2 px-3 py-1 text-black/70 hover:text-black "
                                 >
-                                    Remove
+                                    <TRASHCANTWO_ICON />
                                 </button>
                             )}
                         </div>
@@ -139,9 +139,12 @@ const ChoiceField = ({ field, onUpdate, onDelete, isPreview }) => {
             {!isPreview && (
                 <button
                     onClick={addOption}
-                    className="mt-2 px-3 py-1 bg-indigo-500 text-white rounded"
+                    className="mt-2 px-2 py-1 bg-indigo-500 text-white rounded-lg "
                 >
-                    Add Option
+                    <div className="flex items-center">
+                        Add Option
+                        <PLUSOPTION_ICON className="h-9 w-9 pl-2" />
+                    </div>
                 </button>
             )}
         </div>
