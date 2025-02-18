@@ -9,14 +9,14 @@ const InputField = ({ field, onUpdate, onDelete, isPreview }) => {
         <div className="p-4 bg-white shadow rounded-lg">
             <div className="flex justify-between mb-2">
                 <input
+                    className="px-3 py-2 w-full border border-black/40 rounded 
+                                disabled:border-0 disabled:border-b disabled:rounded-none disabled:text-left disabled:px-2"
                     id={`input-uuid-${uniqueId}`}
                     type="text"
                     value={field.question}
                     onChange={(e) => onUpdate("question", e.target.value)}
                     placeholder="Enter question"
-                    className="px-3 py-2 w-full border border-black/40 rounded 
-                                disabled:border-0 disabled:border-b disabled:rounded-none disabled:text-left disabled:px-2"
-                    disabled={isPreview} 
+                    disabled={isPreview}
                 />
                 {/*Delete btn - Available only in EDIT MODE*/}
                 {!isPreview && (
@@ -36,7 +36,7 @@ const InputField = ({ field, onUpdate, onDelete, isPreview }) => {
                 onChange={(e) => onUpdate("answer", e.target.value)}
                 placeholder="Answer here..."
                 className="px-3 py-2 w-full border border-black/10 shadow-2xs rounded disabled:bg-black/4"
-                disabled={!isPreview} 
+                disabled={!isPreview}
             />
         </div>
     )

@@ -36,11 +36,12 @@ const SelectionField = ({ field, onUpdate, onDelete, isPreview }) => {
         <div className="p-4 bg-white shadow rounded-lg">
             <div className="flex justify-between mb-2">
                 <input
+                    className="px-3 py-2 w-full border border-black/40 rounded 
+                                disabled:border-0 disabled:border-b disabled:rounded-none disabled:text-left disabled:px-2"
                     type="text"
                     value={field.question}
                     onChange={(e) => onUpdate("question", e.target.value)}
                     placeholder="Enter question"
-                    className="px-3 py-2 w-full focus:outline-black/30"
                     disabled={isPreview}
                 />
                 {!isPreview && (
@@ -97,8 +98,8 @@ const SelectionField = ({ field, onUpdate, onDelete, isPreview }) => {
                     className="mt-2 px-2 py-1 bg-indigo-500 text-white rounded-lg "
                 >
                     <div className="flex items-center">
-                    Add Option
-                    <PLUSOPTION_ICON className="h-9 w-9 pl-2"/>
+                        Add Option
+                        <PLUSOPTION_ICON className="h-9 w-9 pl-2" />
                     </div>
                 </button>
             )}
