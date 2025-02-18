@@ -76,7 +76,7 @@ const MobileToolBar = ({ addField, fieldTypes, formData }) => {
                 initial={{ opacity: 0, x: "100%", scale: 0 }}
                 animate={{ opacity: isToolBarExpanded ? 1 : 0, x: isToolBarExpanded ? "0%" : "100%", scale: isToolBarExpanded ? 1 : 0.6 }}
                 transition={{ type: "spring", stiffness: 150, damping: 20 }}
-                className="absolute isolate bottom-0 w-full bg-stone-100/30 border-black/15 border px-6 py-4 mb-2 rounded-2xl backdrop-blur-xl overflow-y-scroll scrollbar-thin scrollbar-track-gray-200 scrollbar-thumb-gray-400"
+                className="absolute bottom-0 w-full mx-auto bg-stone-100/30 border-black/15 border px-9 py-4 mb-2 rounded-2xl backdrop-blur-xl overflow-y-scroll scrollbar-thin scrollbar-track-gray-200 scrollbar-thumb-gray-400"
             >
 
                 <div className="grid grid-cols-1 gap-2">
