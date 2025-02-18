@@ -31,7 +31,7 @@ const FormBuilder = ({ formData, setFormData, isPreview }) => {
     };
 
     return (
-        <div className="min-h-screen p-4 formBuilderMain">
+        <div className="formBuilderMain min-h-screen p-4 mt-32 lg:mt-24">
             {!isPreview && (
                     <MobileToolBar
                         togglePreview={togglePreview}
@@ -40,7 +40,6 @@ const FormBuilder = ({ formData, setFormData, isPreview }) => {
                         formData={formData}
                     /> 
             )
-
             }
 
             <div>
