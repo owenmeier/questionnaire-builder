@@ -2,11 +2,25 @@ import React from "react"
 import { v4 as uuidv4 } from 'uuid';
 import { TRASHCAN_ICON } from "../../../assets/icons";
 
-const InputField = ({ field, onUpdate, onDelete, isPreview }) => {
+const InputField = ({ field, label, onUpdate, onDelete, isPreview }) => {
     const uniqueId = field.id || uuidv4();
 
     return (
         <div className="p-4 bg-white shadow rounded-lg">
+            {!isPreview && (
+                <div className="flex justify-between items-center mb-2">
+                    <div className="text-lg font-bold text-gray-700">
+                        {label}
+                    </div>
+                    <button
+                        onClick={onDelete}
+                        className="px-2 py-1 text-black/80 hover:text-red-600"
+                    >
+                        <TRASHCAN_ICON />
+                    </button>
+                </div>
+            )}
+
             <div className="flex justify-between mb-2">
                 <input
                     className="px-3 py-2 w-full border border-black/40 rounded 
@@ -18,17 +32,8 @@ const InputField = ({ field, onUpdate, onDelete, isPreview }) => {
                     placeholder="Enter question"
                     disabled={isPreview}
                 />
-                {/*Delete btn - Available only in EDIT MODE*/}
-                {!isPreview && (
-                    <button
-                        onClick={onDelete}
-                        className="ml-2 px-3 py-1 text-black/70 hover:text-black"
-                    >
-                        <TRASHCAN_ICON />
-                    </button>
-                )}
             </div>
-            {/* Answer input - Available only in PREVIEW MODE */}
+
             <input
                 id={`answer-uuid-${uniqueId}`}
                 type="text"

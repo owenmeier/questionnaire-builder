@@ -2,7 +2,7 @@ import React from "react";
 import { v4 as uuidv4 } from "uuid";
 import { PLUSOPTION_ICON, TRASHCAN_ICON, TRASHCANTWO_ICON } from "../../../assets/icons";
 
-const SelectionField = ({ field, onUpdate, onDelete, isPreview }) => {
+const SelectionField = ({ field, label, onUpdate, onDelete, isPreview }) => {
     const addOption = () => {
         const newOption = { id: uuidv4(), value: "" };
         onUpdate("options", [...field.options, newOption]);
@@ -34,6 +34,21 @@ const SelectionField = ({ field, onUpdate, onDelete, isPreview }) => {
 
     return (
         <div className="p-4 bg-white shadow rounded-lg">
+
+            {!isPreview && (
+                <div className="flex justify-between items-center mb-2">
+                    <div className="text-lg font-bold text-gray-700">
+                        {label}
+                    </div>
+                    <button
+                        onClick={onDelete}
+                        className="px-2 py-1 text-black/80 hover:text-red-600"
+                    >
+                        <TRASHCAN_ICON />
+                    </button>
+                </div>
+            )}
+
             <div className="flex justify-between mb-2">
                 <input
                     className="px-3 py-2 w-full border border-black/40 rounded 
@@ -44,14 +59,6 @@ const SelectionField = ({ field, onUpdate, onDelete, isPreview }) => {
                     placeholder="Enter question"
                     disabled={isPreview}
                 />
-                {!isPreview && (
-                    <button
-                        onClick={onDelete}
-                        className="ml-2 px-3 py-1 text-black/70 hover:text-black "
-                    >
-                        <TRASHCAN_ICON />
-                    </button>
-                )}
             </div>
 
             <select
@@ -68,7 +75,7 @@ const SelectionField = ({ field, onUpdate, onDelete, isPreview }) => {
                 ))}
             </select>
 
-            {/* Options Editor - Editable only in EDIT MODE */}
+
             {!isPreview && (
                 <div>
                     {field.options.map((option) => (
@@ -91,16 +98,13 @@ const SelectionField = ({ field, onUpdate, onDelete, isPreview }) => {
                 </div>
             )}
 
-            {/* Add Option Button - Available only in EDIT MODE */}
+
             {!isPreview && (
                 <button
                     onClick={addOption}
-                    className="mt-2 px-2 py-1 bg-indigo-500 text-white rounded-lg "
+                    className="mt-2 px-2 py-0 bg-indigo-500 text-white rounded-lg "
                 >
-                    <div className="flex items-center">
-                        Add Option
-                        <PLUSOPTION_ICON className="h-9 w-9 pl-2" />
-                    </div>
+                    <PLUSOPTION_ICON className="h-10 w-10" />
                 </button>
             )}
         </div>

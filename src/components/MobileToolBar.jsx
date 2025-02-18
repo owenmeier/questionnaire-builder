@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { PLUSSQUARE_ICON } from "../assets/icons";
 import { motion } from "framer-motion";
 
-const MobileNavBar = ({ addField, fieldTypes }) => {
+const MobileToolBar = ({ addField, fieldTypes }) => {
     const [isExpanded, setIsExpanded] = useState(false);
 
     const handleExpand = () => setIsExpanded(!isExpanded);
@@ -60,4 +60,4 @@ const MobileNavBar = ({ addField, fieldTypes }) => {
     );
 };
 
-export default MobileNavBar;
+export default MobileToolBar;

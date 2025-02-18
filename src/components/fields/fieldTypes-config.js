@@ -2,7 +2,6 @@ import InputField from "./basic_field/TextInput_Field";
 import RadioField from "./basic_field/Radio_Field";
 import CheckField from "./basic_field/Check_Field";
 import SelectionField from "./basic_field/DropDown_Field";
-import EnableWhenField from "./adv_field/EnableWhen_Field";
 
 const fieldTypes = {
     input: {
@@ -44,6 +43,8 @@ const fieldTypes = {
             selected: null,
         },
     },
+
+    // import EnableWhenField from "./adv_field/EnableWhen_Field";
     // enableWhen: {
     //     label: "Enable When",
     //     component: EnableWhenField,

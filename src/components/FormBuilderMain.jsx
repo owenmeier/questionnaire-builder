@@ -1,7 +1,7 @@
 import { generateUniqueId, initializeField } from "../utils/initializedFieldOptions";
 import fieldTypes from "./fields/fieldTypes-config";
 import React, { useState } from "react";
-import MobileNavBar from "./MobileNavBar"
+import MobileToolBar from "./MobileToolBar"
 
 const FormBuilder = ({ formData, setFormData, isPreview }) => {
 
@@ -33,7 +33,7 @@ const FormBuilder = ({ formData, setFormData, isPreview }) => {
     return (
         <div className="min-h-screen p-4 formBuilderMain">
             {!isPreview && (
-                    <MobileNavBar
+                    <MobileToolBar
                         togglePreview={togglePreview}
                         addField={addField}
                         fieldTypes={fieldTypes}
@@ -51,6 +51,7 @@ const FormBuilder = ({ formData, setFormData, isPreview }) => {
                             <div key={field.id} className="mb-4">
                                 <FieldComponent
                                     field={field}
+                                    label={fieldTypes[field.fieldType]?.label}
                                     onUpdate={(key, value) => updateField(field.id, key, value)}
                                     onDelete={() => !isPreview && deleteField(field.id)}
                                     isPreview={isPreview}
