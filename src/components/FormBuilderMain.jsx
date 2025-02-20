@@ -23,10 +23,22 @@ const FormBuilder = ({ formData, setFormData, isPreview, setIsPreview }) => {
             )
         );
     };
+    
 
     const deleteField = (id) => {
         setFormData(formData.filter((field) => field.id !== id));
     };
+
+    const checkFieldVisibility = (field) => {
+        if (field.enableWhen) {
+            const { fieldId, value } = field.enableWhen;
+            const triggerField = formData.find(f => f.id === fieldId);
+            return triggerField && triggerField.selected === value;
+        }
+        return true; 
+    };
+
+
 
     return (
         <div className="formBuilderMain pt-8 px-4 pb-14">
@@ -41,26 +53,28 @@ const FormBuilder = ({ formData, setFormData, isPreview, setIsPreview }) => {
                 setIsPreview={setIsPreview}
             />
 
-
-
             {/*MAIN FORM COMPONENT CONTAINING ALL FIELDS */}
             <div>
-                {formData.map((field) => {
-                    const FieldComponent = fieldTypes[field.fieldType]?.component;
-                    return (
-                        FieldComponent && (
-                            <div key={field.id} className="mb-4">
-                                <FieldComponent
-                                    field={field}
-                                    label={fieldTypes[field.fieldType]?.label}
-                                    onUpdate={(key, value) => updateField(field.id, key, value)}
-                                    onDelete={() => !isPreview && deleteField(field.id)}
-                                    isPreview={isPreview}
-                                />
-                            </div>
-                        )
-                    );
-                })}
+                {
+                    formData.map((field) => {
+                        const FieldComponent = fieldTypes[field.fieldType]?.component;
+                        const shouldShow = isPreview ? checkFieldVisibility(field) : true;
+                        return (
+                            FieldComponent && shouldShow && (
+                                <div key={field.id} className="mb-4">
+                                    <FieldComponent
+                                        field={field}
+                                        label={fieldTypes[field.fieldType]?.label}
+                                        onUpdate={(key, value) => updateField(field.id, key, value)}
+                                        onDelete={() => !isPreview && deleteField(field.id)}
+                                        isPreview={isPreview}
+                                        formData={formData}
+                                    />
+                                </div>
+                            )
+                        );
+                    })
+                }
             </div>
         </div>
     );

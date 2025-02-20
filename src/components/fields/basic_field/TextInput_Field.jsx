@@ -1,8 +1,9 @@
 import React from "react"
 import { v4 as uuidv4 } from 'uuid';
 import { TRASHCAN_ICON } from "../../../assets/icons";
+import EnableWhenLogic from "../../EnableWhenLogic";
 
-const InputField = ({ field, label, onUpdate, onDelete, isPreview }) => {
+const InputField = ({ field, label, onUpdate, onDelete, isPreview, formData }) => {
     const uniqueId = field.id || uuidv4();
 
     return (
@@ -13,6 +14,7 @@ const InputField = ({ field, label, onUpdate, onDelete, isPreview }) => {
                     <div className="text-lg font-bold text-gray-700">
                         {label}
                     </div>
+                    <EnableWhenLogic fieldId={field.id} formData={formData} onUpdate={onUpdate} />
                     <button
                         onClick={onDelete}
                         className="px-2 py-1 text-black/80 hover:text-red-600"

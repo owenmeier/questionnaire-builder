@@ -1,8 +1,9 @@
 import React from "react";
 import { v4 as uuidv4 } from "uuid";
 import { PLUSOPTION_ICON, TRASHCAN_ICON, TRASHCANTWO_ICON } from "../../../assets/icons";
+import EnableWhenLogic from "../../EnableWhenLogic";
 
-const CheckField = ({ field, label, onUpdate, onDelete, isPreview }) => {
+const CheckField = ({ field, label, onUpdate, onDelete, isPreview, formData }) => {
     const addOption = () => {
         const newOption = { id: uuidv4(), value: "" };
         onUpdate("options", [...field.options, newOption]);
@@ -32,6 +33,7 @@ const CheckField = ({ field, label, onUpdate, onDelete, isPreview }) => {
                     <div className="text-lg font-bold text-gray-700">
                         {label}
                     </div>
+                    <EnableWhenLogic fieldId={field.id} formData={formData} onUpdate={onUpdate} />
                     <button
                         onClick={onDelete}
                         className="px-2 py-1 text-black/80 hover:text-red-600"
