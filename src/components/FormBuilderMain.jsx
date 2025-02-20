@@ -29,7 +29,7 @@ const FormBuilder = ({ formData, setFormData, isPreview, setIsPreview }) => {
     };
 
     return (
-        <div className="formBuilderMain min-h-screen lg:pt-24 px-4 pt-40 pb-14">
+        <div className="formBuilderMain pt-8 px-4 pb-14">
             {/*MOBILE TOOL BAR COMPONENT 
             CONTAINING - TOOLBAR && JSON LOG MODAL */}
 
