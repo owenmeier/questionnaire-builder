@@ -9,7 +9,7 @@ const fieldTypes = {
         component: InputField,
         defaultProps: { 
             fieldType: "input", 
-            question: "New Input Field", 
+            question: "", 
             answer: "" 
         },
     },
@@ -18,8 +18,8 @@ const fieldTypes = {
         component: RadioField,
         defaultProps: {
             fieldType: "radio",
-            question: "New Radio Question",
-            options: ["Option 1", "Option 2", "Option 3"], 
+            question: "",
+            options: ["", "", ""], 
             selected: null,
         },
     },
@@ -28,8 +28,8 @@ const fieldTypes = {
         component: CheckField,
         defaultProps: {
             fieldType: "check",
-            question: "New Checkbox Question",
-            options: ["Option 1", "Option 2", "Option 3"],
+            question: "",
+            options: ["", "", ""],
             selected: [],
         },
     },
@@ -38,8 +38,8 @@ const fieldTypes = {
         component: SelectionField,
         defaultProps: {
             fieldType: "selection",
-            question: "New Dropdown Question",
-            options: ["Option 1", "Option 2"], 
+            question: "",
+            options: ["", "", ""], 
             selected: null,
         },
     },

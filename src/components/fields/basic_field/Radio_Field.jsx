@@ -30,7 +30,9 @@ const RadioField = ({ field,label, onUpdate, onDelete, isPreview }) => {
                         onClick={onDelete}
                         className="px-2 py-1 text-black/80 hover:text-red-600"
                     >
-                        <TRASHCAN_ICON />
+                        <TRASHCAN_ICON 
+                            className="cursor-pointer"
+                        />
                     </button>
                 </div>
             )}
@@ -84,7 +86,9 @@ const RadioField = ({ field,label, onUpdate, onDelete, isPreview }) => {
                                     }
                                     className="ml-2 px-3 py-1 text-black/70 hover:text-black"
                                 >
-                                    <TRASHCANTWO_ICON />
+                                    <TRASHCANTWO_ICON 
+                                        className="cursor-pointer"
+                                    />
                                 </button>
                             )}
                         </div>
@@ -96,7 +100,9 @@ const RadioField = ({ field,label, onUpdate, onDelete, isPreview }) => {
                     onClick={addOption}
                     className="mt-2 px-2 py-0 bg-indigo-500 text-white rounded-lg"
                 >
-                    <PLUSOPTION_ICON className="h-10 w-10" />
+                    <PLUSOPTION_ICON 
+                        className="h-10 w-10 cursor-pointer" 
+                    />
                 </button>
             )}
         </div>

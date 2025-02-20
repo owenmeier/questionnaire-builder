@@ -16,7 +16,9 @@ const InputField = ({ field, label, onUpdate, onDelete, isPreview }) => {
                         onClick={onDelete}
                         className="px-2 py-1 text-black/80 hover:text-red-600"
                     >
-                        <TRASHCAN_ICON />
+                        <TRASHCAN_ICON 
+                            className="cursor-pointer"
+                        />
                     </button>
                 </div>
             )}

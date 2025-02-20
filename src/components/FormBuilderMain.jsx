@@ -1,12 +1,9 @@
 import { generateUniqueId, initializeField } from "../utils/initializedFieldOptions";
 import fieldTypes from "./fields/fieldTypes-config";
-import React, { useState } from "react";
+import React from "react";
 import MobileToolBar from "./MobileToolBar"
 
 const FormBuilder = ({ formData, setFormData, isPreview }) => {
-
-
-    const togglePreview = () => setIsPreview(!isPreview);
 
     const addField = (type) => {
         const fieldTemplate = fieldTypes[type]?.defaultProps;
@@ -34,7 +31,6 @@ const FormBuilder = ({ formData, setFormData, isPreview }) => {
         <div className="formBuilderMain min-h-screen p-4 mt-32 lg:mt-24">
             {!isPreview && (
                     <MobileToolBar
-                        togglePreview={togglePreview}
                         addField={addField}
                         fieldTypes={fieldTypes}
                         formData={formData}
