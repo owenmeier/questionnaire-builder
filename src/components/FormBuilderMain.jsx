@@ -1,6 +1,7 @@
 import React from "react";
 import { v4 as uuidv4 } from "uuid";
 import { initializeField } from "../utils/initializedFieldOptions";
+import { checkFieldVisibility } from "../utils/visibilityChecker";
 import fieldTypes from "./fields/fieldTypes-config";
 import MobileToolBar from "./MobileToolBar"
 
@@ -23,22 +24,11 @@ const FormBuilder = ({ formData, setFormData, isPreview, setIsPreview }) => {
             )
         );
     };
-    
+
 
     const deleteField = (id) => {
         setFormData(formData.filter((field) => field.id !== id));
     };
-
-    const checkFieldVisibility = (field) => {
-        if (field.enableWhen) {
-            const { fieldId, value } = field.enableWhen;
-            const triggerField = formData.find(f => f.id === fieldId);
-            return triggerField && triggerField.selected === value;
-        }
-        return true; 
-    };
-
-
 
     return (
         <div className="formBuilderMain pt-8 px-4 pb-14">
@@ -58,7 +48,7 @@ const FormBuilder = ({ formData, setFormData, isPreview, setIsPreview }) => {
                 {
                     formData.map((field) => {
                         const FieldComponent = fieldTypes[field.fieldType]?.component;
-                        const shouldShow = isPreview ? checkFieldVisibility(field) : true;
+                        const shouldShow = isPreview ? checkFieldVisibility(field, formData) : true;
                         return (
                             FieldComponent && shouldShow && (
                                 <div key={field.id} className="mb-4">
