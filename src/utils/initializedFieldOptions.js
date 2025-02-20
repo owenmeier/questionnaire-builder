@@ -1,11 +1,10 @@
-
-export const generateUniqueId = () => `id-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+import { v4 as uuidv4 } from "uuid";
 
 export const initializeFieldOptions = (options) => {
     return options.map((option) =>
         typeof option === "string"
-            ? { id: generateUniqueId(), value: option } 
-            : { ...option, id: option.id || generateUniqueId() } 
+            ? { id: uuidv4(), value: option } 
+            : { ...option, id: option.id || uuidv4() } 
     );
 };
 

@@ -1,6 +1,7 @@
-import { generateUniqueId, initializeField } from "../utils/initializedFieldOptions";
-import fieldTypes from "./fields/fieldTypes-config";
 import React from "react";
+import { v4 as uuidv4 } from "uuid";
+import { initializeField } from "../utils/initializedFieldOptions";
+import fieldTypes from "./fields/fieldTypes-config";
 import MobileToolBar from "./MobileToolBar"
 
 const FormBuilder = ({ formData, setFormData, isPreview }) => {
@@ -8,7 +9,7 @@ const FormBuilder = ({ formData, setFormData, isPreview }) => {
     const addField = (type) => {
         const fieldTemplate = fieldTypes[type]?.defaultProps;
         if (fieldTemplate) {
-            const initializedField = initializeField({ ...fieldTemplate, id: generateUniqueId() });
+            const initializedField = initializeField({ ...fieldTemplate, id: uuidv4() });
             setFormData([...formData, initializedField]);
         } else {
             alert("Unknown field type");
