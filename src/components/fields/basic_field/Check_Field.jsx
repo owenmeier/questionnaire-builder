@@ -24,8 +24,9 @@ const CheckField = ({ field, label, onUpdate, onDelete, isPreview }) => {
     };
 
     return (
-
         <div className="p-4 bg-white shadow rounded-lg">
+
+            {/*FIELD TITLE BAR*/}
             {!isPreview && (
                 <div className="flex justify-between items-center mb-2">
                     <div className="text-lg font-bold text-gray-700">
@@ -42,6 +43,7 @@ const CheckField = ({ field, label, onUpdate, onDelete, isPreview }) => {
                 </div>
             )}
 
+            {/*FIELD QUESTION BOX */}
             <div className="flex justify-between mb-2">
                 <input
                     className="px-3 py-2 w-full border border-black/40 rounded 
@@ -54,6 +56,7 @@ const CheckField = ({ field, label, onUpdate, onDelete, isPreview }) => {
                 />
             </div>
 
+            {/*FIELD OPTIONS */}
             <div>
                 {field.options
                     .filter((option) => !isPreview || option.value.trim() !== "")
@@ -81,7 +84,8 @@ const CheckField = ({ field, label, onUpdate, onDelete, isPreview }) => {
                                     />
                                 )}
                             </label>
-
+                        
+                            {/*DELETE OPTION BUTTON (ENABLE / DISABLE BASED ON PREVIEW STATE)*/}
                             {!isPreview && (
                                 <button
                                     onClick={() =>
@@ -100,7 +104,8 @@ const CheckField = ({ field, label, onUpdate, onDelete, isPreview }) => {
                         </div>
                     ))}
             </div>
-
+            
+        {/*ADD OPTIONS BUTTON (ENABLE / DISABLE BASED ON PREVIEW STATE)*/}
             {!isPreview && (
                 <button
                     onClick={addOption}

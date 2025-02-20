@@ -30,6 +30,8 @@ const FormBuilder = ({ formData, setFormData, isPreview }) => {
 
     return (
         <div className="formBuilderMain min-h-screen p-4 mt-32 lg:mt-24">
+            {/*MOBILE TOOL BAR COMPONENT 
+            CONTAINING - TOOLBAR && JSON LOG MODAL */}
             {!isPreview && (
                     <MobileToolBar
                         addField={addField}
@@ -39,6 +41,7 @@ const FormBuilder = ({ formData, setFormData, isPreview }) => {
             )
             }
 
+            {/*MAIN FORM COMPONENT CONTAINING ALL FIELDS */}
             <div>
                 {formData.map((field) => {
                     const FieldComponent = fieldTypes[field.fieldType]?.component;

@@ -7,6 +7,7 @@ const InputField = ({ field, label, onUpdate, onDelete, isPreview }) => {
 
     return (
         <div className="p-4 bg-white shadow rounded-lg">
+            {/*FIELD TITLE BAR */}
             {!isPreview && (
                 <div className="flex justify-between items-center mb-2">
                     <div className="text-lg font-bold text-gray-700">
@@ -23,6 +24,7 @@ const InputField = ({ field, label, onUpdate, onDelete, isPreview }) => {
                 </div>
             )}
 
+            {/*FIELD QUESTION BOX */}
             <div className="flex justify-between mb-2">
                 <input
                     className="px-3 py-2 w-full border border-black/40 rounded 
@@ -36,6 +38,7 @@ const InputField = ({ field, label, onUpdate, onDelete, isPreview }) => {
                 />
             </div>
 
+            {/*FIELD USER INPUT BOX*/}
             <input
                 id={`answer-uuid-${uniqueId}`}
                 type="text"

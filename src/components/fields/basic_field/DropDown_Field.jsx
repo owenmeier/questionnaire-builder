@@ -34,7 +34,7 @@ const SelectionField = ({ field, label, onUpdate, onDelete, isPreview }) => {
 
     return (
         <div className="p-4 bg-white shadow rounded-lg">
-
+            {/*FIELD TITLE BAR */}
             {!isPreview && (
                 <div className="flex justify-between items-center mb-2">
                     <div className="text-lg font-bold text-gray-700">
@@ -51,6 +51,7 @@ const SelectionField = ({ field, label, onUpdate, onDelete, isPreview }) => {
                 </div>
             )}
 
+            {/*FIELD QUESTION BOX */}
             <div className="flex justify-between mb-2">
                 <input
                     className="px-3 py-2 w-full border border-black/40 rounded 
@@ -63,6 +64,7 @@ const SelectionField = ({ field, label, onUpdate, onDelete, isPreview }) => {
                 />
             </div>
 
+            {/*FIELD SELECT BUTTON */}
             <select
                 className="w-full px-4 py-3 shadow border border-black/10 rounded-lg"
                 onChange={handleSelectionChange}
@@ -77,7 +79,8 @@ const SelectionField = ({ field, label, onUpdate, onDelete, isPreview }) => {
                 ))}
             </select>
 
-
+            {/*FIELD SELECTION OPTION BUTTON (HOLDS ALL EDITABLE OPTION FOR SELECTION)  
+                (ENABLE / DISABLE BASED ON THE STATE OF PREVIEW)*/}
             {!isPreview && (
                 <div>
                     {field.options.map((option) => (
@@ -93,6 +96,7 @@ const SelectionField = ({ field, label, onUpdate, onDelete, isPreview }) => {
                                 onClick={() => removeOption(option.id)}
                                 className="ml-2 px-3 py-1 text-black/70 hover:text-black "
                             >
+                                {/*DELETE SELECTION OPTION BUTTON (ENABLE / DISABLE BASED ON THE STATE OF PREVIEW) */}
                                 <TRASHCANTWO_ICON 
                                     className="cursor-pointer"
                                 />
@@ -102,7 +106,7 @@ const SelectionField = ({ field, label, onUpdate, onDelete, isPreview }) => {
                 </div>
             )}
 
-
+            {/*ADD OPTION BUTTON (ENABLE / DISABLE BASED ON THE STATE OF PREVIEW) */}
             {!isPreview && (
                 <button
                     onClick={addOption}
