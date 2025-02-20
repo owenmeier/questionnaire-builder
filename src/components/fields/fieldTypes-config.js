@@ -10,7 +10,7 @@ const fieldTypes = {
         defaultProps: { 
             fieldType: "input", 
             question: "", 
-            answer: "" 
+            answer: "", 
         },
     },
     radio: {

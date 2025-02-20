@@ -1,8 +1,9 @@
 import React from "react";
 import { v4 as uuidv4 } from "uuid";
 import { PLUSOPTION_ICON, TRASHCAN_ICON, TRASHCANTWO_ICON } from "../../../assets/icons";
+import EnableWhenLogic from "../../EnableWhenLogic";
 
-const SelectionField = ({ field, label, onUpdate, onDelete, isPreview }) => {
+const SelectionField = ({ field, label, onUpdate, onDelete, isPreview, formData }) => {
     const addOption = () => {
         const newOption = { id: uuidv4(), value: "" };
         onUpdate("options", [...field.options, newOption]);
@@ -40,11 +41,12 @@ const SelectionField = ({ field, label, onUpdate, onDelete, isPreview }) => {
                     <div className="text-lg font-bold text-gray-700">
                         {label}
                     </div>
+                    <EnableWhenLogic fieldId={field.id} formData={formData} onUpdate={onUpdate} />
                     <button
                         onClick={onDelete}
                         className="px-2 py-1 text-black/80 hover:text-red-600"
                     >
-                        <TRASHCAN_ICON 
+                        <TRASHCAN_ICON
                             className="cursor-pointer"
                         />
                     </button>
@@ -97,7 +99,7 @@ const SelectionField = ({ field, label, onUpdate, onDelete, isPreview }) => {
                                 className="ml-2 px-3 py-1 text-black/70 hover:text-black "
                             >
                                 {/*DELETE SELECTION OPTION BUTTON (ENABLE / DISABLE BASED ON THE STATE OF PREVIEW) */}
-                                <TRASHCANTWO_ICON 
+                                <TRASHCANTWO_ICON
                                     className="cursor-pointer"
                                 />
                             </button>
@@ -112,8 +114,8 @@ const SelectionField = ({ field, label, onUpdate, onDelete, isPreview }) => {
                     onClick={addOption}
                     className="mt-2 px-2 py-0 bg-indigo-500 text-white rounded-lg "
                 >
-                    <PLUSOPTION_ICON 
-                        className="h-10 w-10 cursor-pointer" 
+                    <PLUSOPTION_ICON
+                        className="h-10 w-10 cursor-pointer"
                     />
                 </button>
             )}
