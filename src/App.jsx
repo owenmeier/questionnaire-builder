@@ -7,18 +7,17 @@ const App = () => {
     const [isPreview, setIsPreview] = useState(false);
 
     return (
-        <div className="min-h-screen bg-gray-100 p-5">
+        <div className="min-h-screen bg-gray-100">
             <Header
                 formData={formData}
                 setFormData={setFormData}
-                isPreview={isPreview}
-                setIsPreview={setIsPreview}
             />
 
             <FormBuilder
                 formData={formData}
                 setFormData={setFormData}
-                isPreview={isPreview} />
+                isPreview={isPreview}
+                setIsPreview={setIsPreview} />
         </div>
     );
 };

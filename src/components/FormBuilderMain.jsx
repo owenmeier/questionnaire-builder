@@ -4,7 +4,7 @@ import { initializeField } from "../utils/initializedFieldOptions";
 import fieldTypes from "./fields/fieldTypes-config";
 import MobileToolBar from "./MobileToolBar"
 
-const FormBuilder = ({ formData, setFormData, isPreview }) => {
+const FormBuilder = ({ formData, setFormData, isPreview, setIsPreview }) => {
 
     const addField = (type) => {
         const fieldTemplate = fieldTypes[type]?.defaultProps;
@@ -29,17 +29,19 @@ const FormBuilder = ({ formData, setFormData, isPreview }) => {
     };
 
     return (
-        <div className="formBuilderMain min-h-screen p-4 mt-32 lg:mt-24">
+        <div className="formBuilderMain min-h-screen lg:pt-24 px-4 pt-40 pb-14">
             {/*MOBILE TOOL BAR COMPONENT 
             CONTAINING - TOOLBAR && JSON LOG MODAL */}
-            {!isPreview && (
-                    <MobileToolBar
-                        addField={addField}
-                        fieldTypes={fieldTypes}
-                        formData={formData}
-                    /> 
-            )
-            }
+
+            <MobileToolBar
+                addField={addField}
+                fieldTypes={fieldTypes}
+                formData={formData}
+                isPreview={isPreview}
+                setIsPreview={setIsPreview}
+            />
+
+
 
             {/*MAIN FORM COMPONENT CONTAINING ALL FIELDS */}
             <div>

@@ -1,5 +1,5 @@
 import React from "react";
-const Header = ({ formData, setFormData, isPreview, setIsPreview }) => {
+const Header = ({ formData, setFormData }) => {
     const importData = (data) => {
         try {
             const parsedData = JSON.parse(data);
@@ -20,12 +20,9 @@ const Header = ({ formData, setFormData, isPreview, setIsPreview }) => {
         a.click();
     };
 
-    const togglePreview = () => setIsPreview(!isPreview);
-
-
     return (
-        <div className="fixed top-0 left-0 w-full mx-auto px-9 pt-2">
-            <div className="flex flex-col min-[700px]:flex-row justify-between items-center mb-4 bg-stone-100 p-4 md:rounded-xl backdrop-blur-2xl shadow-md">
+        <div className="fixed top-0 left-0 w-full mx-auto">
+            <div className="flex flex-col min-[700px]:flex-row justify-between items-center bg-black/5 p-4 md:rounded-xl backdrop-blur-2xl shadow-md">
                 <h1 className="text-2xl font-bold mb-2">Questionnaire Builder</h1>
                 <div className="flex items-center justify-center max-[380px]:text-sm">
 
@@ -53,14 +50,6 @@ const Header = ({ formData, setFormData, isPreview, setIsPreview }) => {
                             }}
                         />
                     </label>
-
-                    {/*TOGGLE PREVIEW BUTTON */}
-                    <button
-                        className="px-4 py-2 mx-1 min-[440px]:py-5 bg-indigo-500 text-white rounded cursor-pointer"
-                        onClick={togglePreview}
-                    >
-                        {isPreview ? "Switch to Edit Mode" : "Switch to Preview"}
-                    </button>
 
                 </div>
             </div>
