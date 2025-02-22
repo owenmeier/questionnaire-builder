@@ -9,58 +9,58 @@ const toFHIR = (formData) => {
                 type: "string",  
                 answerOption: [],
                 extension: [],
-            };
+            }
 
 
             switch (field.fieldType) {
                 case "input":
-                    item.type = "string";
-                    break;
+                    item.type = "string"
+                    break
 
                 case "radio":
-                    item.type = "choice";
+                    item.type = "choice"
                     item.answerOption = field.options.map(option => ({
                         valueCoding: {
                             code: option.id,
                             display: option.value
                         }
-                    }));
-                    break;
+                    }))
+                    break
 
                 case "check":
-                    item.type = "choice";
+                    item.type = "choice"
                     item.answerOption = field.options.map(option => ({
                         valueCoding: {
                             code: option.id,
                             display: option.value
                         }
-                    }));
-                    break;
+                    }))
+                    break
 
                 case "selection":
-                    item.type = "choice";
+                    item.type = "choice"
                     item.answerOption = field.options.map(option => ({
                         valueCoding: {
                             code: option.id,
                             display: option.value
                         }
-                    }));
-                    break;
+                    }))
+                    break
 
                 default:
-                    break;
+                    break
             }
 
             if (field.sublabel) {
                 item.extension.push({
                     url: "http://helsenorge.no/fhir/StructureDefinition/sdf-sublabel",
                     valueMarkdown: field.sublabel,
-                });
+                })
             }
 
-            return item;
+            return item
         }),
-    };
+    }
 
-    return questionnaire;
-};
+    return questionnaire
+}

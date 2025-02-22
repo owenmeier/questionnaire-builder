@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from "react";
-import { DATALOG_ICON, EYEEDIT_ICON, EYECLOSED_ICON, PLUSSQUARE_ICON, X_ICON } from "../assets/icons";
-import { motion } from "framer-motion";
+import React, { useState, useEffect } from "react"
+import { DATALOG_ICON, EYEEDIT_ICON, EYECLOSED_ICON, PLUSSQUARE_ICON, X_ICON } from "../assets/icons"
+import { motion } from "framer-motion"
 
 const MobileToolBar = ({ addField, fieldTypes, formData, isPreview, setIsPreview }) => {
-    const [isToolBarExpanded, setIsToolBarExpanded] = useState(false);
-    const [isLogExpanded, setIsLogExpanded] = useState(false);
+    const [isToolBarExpanded, setIsToolBarExpanded] = useState(false)
+    const [isLogExpanded, setIsLogExpanded] = useState(false)
 
     const handleToolBarExpanded = () => {
         setIsToolBarExpanded(!isToolBarExpanded)
         setIsLogExpanded(false)
-    };
+    }
     const handleLogExpanded = () => {
         setIsLogExpanded(!isLogExpanded)
         setIsToolBarExpanded(false)
-    };
+    }
 
     const handlePreviewMode = () => {
         setIsPreview(!isPreview)
@@ -26,19 +26,19 @@ const MobileToolBar = ({ addField, fieldTypes, formData, isPreview, setIsPreview
             setIsToolBarExpanded(false)
             setIsLogExpanded(false)
         }
-    };
+    }
 
     useEffect(() => {
         if (isToolBarExpanded || isLogExpanded) {
-            document.addEventListener("mousedown", handleClickOutside);
+            document.addEventListener("mousedown", handleClickOutside)
         } else {
-            document.removeEventListener("mousedown", handleClickOutside);
+            document.removeEventListener("mousedown", handleClickOutside)
         }
 
         return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [isToolBarExpanded, isLogExpanded]);
+            document.removeEventListener("mousedown", handleClickOutside)
+        }
+    }, [isToolBarExpanded, isLogExpanded])
 
     return (
         <div className="navbar-container fixed bottom-0 left-0 w-full text-stone-900 shadow-lg z-10">
@@ -90,7 +90,8 @@ const MobileToolBar = ({ addField, fieldTypes, formData, isPreview, setIsPreview
                 initial={{ opacity: 0, y: "100%", scale: 0 }}
                 animate={{ opacity: isLogExpanded ? 1 : 0, y: isLogExpanded ? "0%" : "100%", scale: isLogExpanded ? 1 : 0.6 }}
                 transition={{ type: "spring", stiffness: 150, damping: 20 }}
-                className="absolute isolate bottom-0 w-full bg-black/5 border-black/15 border px-6 py-4 max-h-96 rounded-2xl backdrop-blur-xl overflow-y-scroll scrollbar-thin scrollbar-track-gray-200 scrollbar-thumb-gray-400"
+                className="fixed isolate bottom-0 w-full bg-black/5 border-black/15 border px-6 py-4 max-h-96 rounded-2xl backdrop-blur-xl
+                            overflow-hidden"
             >
                 <button
                     className="flex w-full justify-end"
@@ -100,8 +101,8 @@ const MobileToolBar = ({ addField, fieldTypes, formData, isPreview, setIsPreview
                 >
                     <X_ICON />
                 </button>
-                <div className="p-4 rounded-lg">
-                    <h3 className="font-bold text-lg mb-4">Form Data (JSON)</h3>
+                <h3 className="font-bold text-lg mb-4">Form Data (JSON)</h3>
+                <div className="p-4 rounded-lg overflow-y-auto max-h-80 scrollbar-thin scrollbar-track-gray-200 scrollbar-thumb-gray-400">
                     <pre className="whitespace-pre-wrap break-words text-sm text-gray-700">
                         {JSON.stringify(formData, null, 2)}
                     </pre>
@@ -114,7 +115,8 @@ const MobileToolBar = ({ addField, fieldTypes, formData, isPreview, setIsPreview
                 initial={{ opacity: 0, y: "100%", scale: 0 }}
                 animate={{ opacity: isToolBarExpanded ? 1 : 0, y: isToolBarExpanded ? "0%" : "100%", scale: isToolBarExpanded ? 1 : 0.6 }}
                 transition={{ type: "spring", stiffness: 150, damping: 20 }}
-                className="absolute bottom-0 w-full mx-auto bg-black/5 border-black/15 border px-9 py-4 mb-2 rounded-2xl backdrop-blur-xl overflow-y-scroll scrollbar-thin scrollbar-track-gray-200 scrollbar-thumb-gray-400"
+                className="fixed bottom-0 w-full mx-auto bg-black/5 border-black/15 border px-9 py-4 mb-2 rounded-2xl backdrop-blur-xl 
+                            overflow-y-scroll scrollbar-thin scrollbar-track-gray-200 scrollbar-thumb-gray-400"
             >
                 <div className="grid grid-cols-1 gap-2">
                     <button
@@ -141,7 +143,7 @@ const MobileToolBar = ({ addField, fieldTypes, formData, isPreview, setIsPreview
 
             </motion.div>
         </div>
-    );
-};
+    )
+}
 
-export default MobileToolBar;
+export default MobileToolBar
