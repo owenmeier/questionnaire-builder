@@ -1,34 +1,55 @@
-import React from "react"
+import React, { useState } from "react"
+import { motion } from "framer-motion"
 import { v4 as uuidv4 } from 'uuid'
-import { TRASHCAN_ICON } from "../../../assets/icons"
+import { EDIT_ICON, TRASHCAN_ICON } from "../../../assets/icons"
 import EnableWhenLogic from "../../EnableWhenLogic"
 
 const InputField = ({ field, label, onUpdate, onDelete, isPreview, formData }) => {
+
+    const [isEdit, setIsEdit] = useState(false)
+    const handleIsEdit = () => {
+        setIsEdit(!isEdit)
+    }
     const uniqueId = field.id || uuidv4()
 
     return (
-
-        <>
-            {!isPreview && (
-                <EnableWhenLogic fieldId={field.id} formData={formData} onUpdate={onUpdate} />
-            )}
             <div className="p-4 bg-white shadow rounded-lg">
                 {/*FIELD TITLE BAR */}
                 {!isPreview && (
-                    <div className="flex justify-between items-center mb-2">
-                        <div className="text-lg font-bold text-gray-700">
-                            {label}
+                    <>
+                        <div className="flex justify-between items-center mb-2">
+                            <div className="text-lg font-bold text-gray-700">
+                                {label}
+                            </div>
+                            <div>
+                                <button
+                                    onClick={handleIsEdit}
+                                >
+                                    <EDIT_ICON
+                                        className="cursor-pointer"
+                                    />
+                                </button>
+                                <button
+                                    onClick={onDelete}
+                                    className="px-2 py-1 text-black/80 hover:text-red-600"
+                                >
+                                    <TRASHCAN_ICON
+                                        className="cursor-pointer"
+                                    />
+                                </button>
+                            </div>
                         </div>
-
-                        <button
-                            onClick={onDelete}
-                            className="px-2 py-1 text-black/80 hover:text-red-600"
+                        <motion.div
+                            initial={{ height: "auto", opacity: 1 }}
+                            animate={{ height: isEdit ? "auto" : 0, opacity: isEdit ? 1 : 0 }}
+                            transition={{ duration: 0.3, ease: "easeInOut" }}
+                            className={`overflow-hidden ${!isEdit ? "pointer-events-none" : ""}`}
                         >
-                            <TRASHCAN_ICON
-                                className="cursor-pointer"
-                            />
-                        </button>
-                    </div>
+
+                            <EnableWhenLogic fieldId={field.id} formData={formData} onUpdate={onUpdate} />
+
+                        </motion.div>
+                    </>
                 )}
 
                 {/*FIELD QUESTION BOX */}
@@ -56,7 +77,6 @@ const InputField = ({ field, label, onUpdate, onDelete, isPreview, formData }) =
                     disabled={!isPreview}
                 />
             </div>
-        </>
     )
 }
 

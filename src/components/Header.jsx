@@ -1,5 +1,4 @@
 import React from "react"
-import { LOGO_ICON } from "../assets/icons"
 
 const Header = ({ formData, setFormData }) => {
     const importData = (data) => {

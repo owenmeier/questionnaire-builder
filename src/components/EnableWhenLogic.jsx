@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react"
+import { X_ICON } from "../assets/icons"
 
 const DEFAULT_CONDITION = {
     fieldId: "",
@@ -80,35 +81,37 @@ const EnableWhenLogic = ({ fieldId, formData, onUpdate }) => {
         syncToParent(logic, newConditions)
     }
 
-    // - Update a condition (fieldId/operator/value)
-    // - Update a condition (fieldId/operator/value)
     const handleConditionChange = (idx, key, val) => {
         let newConditions = conditions.map((c, i) => {
             if (i === idx) {
-                const updated = { ...c, [key]: val }
+                const updated = { ...c, [key]: val };
 
                 // If the user just changed the fieldId, auto-set the operator
-                // to something valid for that fieldType if needed.
                 if (key === "fieldId") {
-                    const chosenField = formData.find(f => f.id === val)
-                    if (chosenField?.fieldType === "check" && updated.operator === "equals") {
-                        updated.operator = "includes"
-                    }
-                    // similarly, if they pick a radio field but had "contains" set, fix to "equals", etc.
-                }
-                return updated
-            }
-            return c
-        })
+                    const chosenField = formData.find(f => f.id === val);
 
-        setConditions(newConditions)
-        syncToParent(logic, newConditions)
-    }
+                    if (chosenField) {
+                        // Get the allowed operators based on field type
+                        const allowedOperators = getOperatorsForFieldType(chosenField.fieldType);
+
+                        // Set default operator to the first valid operator
+                        updated.operator = allowedOperators[0] || "equals";
+                    }
+                }
+                return updated;
+            }
+            return c;
+        });
+
+        setConditions(newConditions);
+        syncToParent(logic, newConditions);
+    };
+
 
 
     return (
-        <div className="relative p-2 border border-gray-300 rounded bg-gray-50">
-            <div className="flex items-center space-x-2 mb-2">
+        <div className="relative p-2 border border-gray-300 rounded bg-gray-50 mb-2">
+            <div className="flex items-center space-x-2 mb-4">
                 <label className="font-semibold">Logic:</label>
                 <select
                     value={logic}
@@ -143,14 +146,14 @@ const EnableWhenLogic = ({ fieldId, formData, onUpdate }) => {
                 return (
                     <div
                         key={idx}
-                        className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-2 mb-3 border-b pb-2"
+                        className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-2 pb-2 pr-4"
                     >
                         <div className="w-full flex justify-end sm:justify-start sm:w-auto">
                             <button
                                 onClick={() => handleRemoveCondition(idx)}
-                                className="px-2 py-1 bg-red-200 border rounded "
+                                className="px-2 py-1"
                             >
-                                X
+                                <X_ICON className="cursor-pointer"/>
                             </button>
                         </div>
                         {/* Field selector */}
@@ -159,7 +162,7 @@ const EnableWhenLogic = ({ fieldId, formData, onUpdate }) => {
                             onChange={(e) =>
                                 handleConditionChange(idx, "fieldId", e.target.value)
                             }
-                            className="border p-1 rounded w-full sm:w-auto"
+                            className="border p-1 rounded w-full"
                         >
                             <option value="">--Select Field--</option>
                             {formData
@@ -178,7 +181,7 @@ const EnableWhenLogic = ({ fieldId, formData, onUpdate }) => {
                             onChange={(e) =>
                                 handleConditionChange(idx, "operator", e.target.value)
                             }
-                            className="border p-1 rounded w-full sm:w-auto"
+                            className="border p-1 rounded w-full"
                             disabled={!triggerFieldType}
                         >
                             {triggerFieldType ? (
@@ -200,7 +203,7 @@ const EnableWhenLogic = ({ fieldId, formData, onUpdate }) => {
                                 onChange={(e) =>
                                     handleConditionChange(idx, "value", e.target.value)
                                 }
-                                className="border p-1 rounded w-full sm:w-auto"
+                                className="border p-1 rounded w-full"
                                 disabled={!triggerFieldType}
                             >
                                 <option value="">--Select Option--</option>
