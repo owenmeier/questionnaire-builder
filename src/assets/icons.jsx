@@ -86,54 +86,11 @@ export const X_ICON = ({ className = "" }) => (
     </svg>
 )
 
-export const LOGO_ICON = ({ className = "" }) => (
-    <svg
-        width="180"
-        height="180"
-        viewBox="0 0 180 180"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-    >
-
-        <rect
-            x="0" y="0"
-            width="180" height="180"
-            rx="20"
-            fill="#ffffff"
-        />
-
-
-        <circle
-            cx="60"
-            cy="60"
-            r="40"
-            fill="#673AB7"
-        />
-
-        <rect
-            x="95"
-            y="55"
-            width="10"
-            height="10"
-            transform="rotate(45 95 55)"
-            fill="#ffffff"
-        />
-
-
-        <path
-            d="
-      M 100 30
-      L 140 30
-      A 30 30 0 0 1 140 90
-      L 100 90
-      Z
-      M 100 90
-      L 140 90
-      A 30 30 0 0 1 140 150
-      L 100 150
-      Z
-    "
-            fill="#FFC107"
-        />
+export const EDIT_ICON = ({ className = "" }) => (
+    <svg className={className} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
+            <path d="M7 7H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-1" />
+            <path d="M20.385 6.585a2.1 2.1 0 0 0-2.97-2.97L9 12v3h3zM16 5l3 3" />
+        </g>
     </svg>
 )
