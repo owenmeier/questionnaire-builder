@@ -6,14 +6,6 @@ const SignatureField = ({ field, label, onUpdate, onDelete, isPreview }) => {
     const locked = !!field.locked;
 
 
-    // Only save signature when user confirms
-    const handleConfirm = () => {
-        if (sigPadRef.current) {
-            const dataUrl = sigPadRef.current.getTrimmedCanvas().toDataURL("image/png")
-            onUpdate("value", dataUrl)
-            onUpdate("locked", true)
-        }
-    }
 
     const handleClear = () => {
         if (sigPadRef.current) {
@@ -34,8 +26,32 @@ const SignatureField = ({ field, label, onUpdate, onDelete, isPreview }) => {
             <div className="mb-2">
                 <span className="block mb-1 font-medium">{field.question || "Please sign below:"}</span>
                 {isPreview ? (
-                    // Preview mode: fully functional signature pad
+                    // Preview mode: upload or draw signature
                     <div>
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-2">
+                            <label className="block text-sm font-medium mb-1 sm:mb-0">Upload existing signature (PNG):</label>
+                            <label className={`inline-block px-4 py-2 bg-blue-500 text-white rounded shadow cursor-pointer transition hover:bg-blue-600 ${locked ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                style={{ pointerEvents: locked ? 'none' : 'auto' }}>
+                                Choose File
+                                <input
+                                    type="file"
+                                    accept="image/png"
+                                    className="hidden"
+                                    onChange={e => {
+                                        const file = e.target.files[0];
+                                        if (file) {
+                                            const reader = new window.FileReader();
+                                            reader.onload = (ev) => {
+                                                onUpdate("value", ev.target.result);
+                                            };
+                                            reader.readAsDataURL(file);
+                                        }
+                                    }}
+                                    disabled={locked}
+                                />
+                            </label>
+                        </div>
+                        <div className="mb-2 text-sm text-gray-700 font-medium">Or create a new signature below:</div>
                         {field.value ? (
                             <img src={field.value} alt="Signature" className="border border-gray-400 rounded h-24 bg-gray-50" />
                         ) : (
@@ -48,7 +64,6 @@ const SignatureField = ({ field, label, onUpdate, onDelete, isPreview }) => {
                         )}
                         <div className="flex mt-2 space-x-2">
                             <button onClick={handleClear} className="px-2 py-1 bg-gray-200 rounded text-sm" disabled={locked}>Clear</button>
-                            <button onClick={handleConfirm} className="px-2 py-1 bg-blue-500 text-white rounded text-sm" disabled={locked}>Confirm Signature</button>
                         </div>
                         {locked && (
                             <div className="text-green-600 mt-2 text-sm">Signature locked. Clear to re-sign.</div>
