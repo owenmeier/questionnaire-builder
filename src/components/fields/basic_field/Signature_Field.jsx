@@ -60,7 +60,11 @@ const handleClear = () => {
                                 />
                             </label>
                         </div>
-                        <div className="mb-2 text-sm text-gray-700 font-medium">Or create a new signature below:</div>
+                        <div className="mb-2 text-sm text-gray-700 font-medium">
+                            {locked 
+                                ? "Signature locked (click Clear to make changes):" 
+                                : "Or create a new signature below:"}
+                        </div>
                         {field.value ? (
                             <img
                                 src={field.value}
@@ -77,7 +81,12 @@ const handleClear = () => {
                                 ref={sigPadRef}
                                 penColor="black"
                                 canvasProps={{ width: 400, height: 96, className: "border border-gray-400 rounded bg-gray-50" }}
-                                readOnly={locked}
+                                readOnly={!!locked}
+                                onEnd={() => {
+                                    if (sigPadRef.current && !locked) {
+                                        // Don't auto-save on drawing - user must click Confirm
+                                    }
+                                }}
                             />
                         )}
                         <div className="flex mt-2 space-x-2">
@@ -89,15 +98,42 @@ const handleClear = () => {
                                     if (fileInputRef.current) fileInputRef.current.value = "";
                                     if (sigPadRef.current && sigPadRef.current.clear) sigPadRef.current.clear();
                                 }}
-                                className="px-4 py-2 bg-red-500 text-white rounded shadow hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-50 transition"
-                                style={{ cursor: 'pointer', minWidth: 80 }}
+                                className="px-3 py-2 bg-red-500 text-white rounded shadow hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-50 transition"
+                                style={{ cursor: 'pointer', minWidth: 75 }}
                                 tabIndex={0}
+                                disabled={false} /* Clear button should always be enabled when there's a signature */
                             >
                                 Clear
                             </button>
+                            
+                            {!locked && (
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        // If drawing on canvas, save it first
+                                        if (!field.value && sigPadRef.current && !sigPadRef.current.isEmpty()) {
+                                            const dataUrl = sigPadRef.current.getTrimmedCanvas().toDataURL("image/png");
+                                            onUpdate("value", dataUrl);
+                                        }
+                                        // Then lock it
+                                        onUpdate("locked", true);
+                                    }}
+                                    className="px-3 py-2 bg-green-600 text-white rounded shadow hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 transition"
+                                    style={{ cursor: 'pointer', minWidth: 75 }}
+                                    tabIndex={0}
+                                    disabled={!field.value && (!sigPadRef.current || sigPadRef.current.isEmpty())}
+                                >
+                                    Confirm
+                                </button>
+                            )}
                         </div>
                         {locked && (
-                            <div className="text-green-600 mt-2 text-sm">Signature locked. Clear to re-sign.</div>
+                            <div className="flex items-center mt-2 text-green-600 text-sm">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                </svg>
+                                Signature confirmed and locked. Clear to re-sign.
+                            </div>
                         )}
                     </div>
                 ) : (
