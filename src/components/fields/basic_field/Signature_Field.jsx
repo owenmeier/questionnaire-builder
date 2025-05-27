@@ -34,21 +34,18 @@ const SignatureField = ({ field, label, onUpdate, onDelete, isPreview }) => {
             <div className="mb-2">
                 <span className="block mb-1 font-medium">{field.question || "Please sign below:"}</span>
                 {isPreview ? (
-                    field.value ? (
-                        <img src={field.value} alt="Signature" className="border border-gray-400 rounded h-24 bg-gray-50" />
-                    ) : (
-                        <div className="border border-gray-400 rounded h-24 bg-gray-50 flex items-center justify-center text-gray-400">
-                            No signature captured.
-                        </div>
-                    )
-                ) : (
+                    // Preview mode: fully functional signature pad
                     <div>
-                        <SignatureCanvas
-                            ref={sigPadRef}
-                            penColor="black"
-                            canvasProps={{ width: 400, height: 96, className: "border border-gray-400 rounded bg-gray-50" }}
-                            readOnly={locked}
-                        />
+                        {field.value ? (
+                            <img src={field.value} alt="Signature" className="border border-gray-400 rounded h-24 bg-gray-50" />
+                        ) : (
+                            <SignatureCanvas
+                                ref={sigPadRef}
+                                penColor="black"
+                                canvasProps={{ width: 400, height: 96, className: "border border-gray-400 rounded bg-gray-50" }}
+                                readOnly={locked}
+                            />
+                        )}
                         <div className="flex mt-2 space-x-2">
                             <button onClick={handleClear} className="px-2 py-1 bg-gray-200 rounded text-sm" disabled={locked}>Clear</button>
                             <button onClick={handleConfirm} className="px-2 py-1 bg-blue-500 text-white rounded text-sm" disabled={locked}>Confirm Signature</button>
@@ -56,6 +53,11 @@ const SignatureField = ({ field, label, onUpdate, onDelete, isPreview }) => {
                         {locked && (
                             <div className="text-green-600 mt-2 text-sm">Signature locked. Clear to re-sign.</div>
                         )}
+                    </div>
+                ) : (
+                    // Editor mode: placeholder only
+                    <div className="border border-gray-400 rounded h-24 bg-gray-50 flex items-center justify-center text-gray-400">
+                        Signature pad placeholder (editor only)
                     </div>
                 )}
             </div>
