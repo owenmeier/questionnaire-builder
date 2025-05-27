@@ -83,9 +83,8 @@ const handleClear = () => {
                                 canvasProps={{ width: 400, height: 96, className: "border border-gray-400 rounded bg-gray-50" }}
                                 readOnly={locked}
                                 onEnd={() => {
-                                    if (sigPadRef.current && !locked) {
-                                        // Don't auto-save on drawing - user must click Confirm
-                                    }
+                                    // We don't auto-save on drawing - user must click Confirm
+                                    // This empty handler prevents the default behavior
                                 }}
                             />
                         )}
@@ -110,8 +109,8 @@ const handleClear = () => {
                                 <button
                                     type="button"
                                     onClick={() => {
-                                        // If drawing on canvas, save it first
-                                        if (!field.value && sigPadRef.current && !sigPadRef.current.isEmpty()) {
+                                        // If drawing on canvas and it's not empty, save it first
+                                        if (sigPadRef.current && !sigPadRef.current.isEmpty()) {
                                             const dataUrl = sigPadRef.current.getTrimmedCanvas().toDataURL("image/png");
                                             onUpdate("value", dataUrl);
                                         }
@@ -121,7 +120,7 @@ const handleClear = () => {
                                     className="px-3 py-2 bg-green-600 text-white rounded shadow hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 transition"
                                     style={{ cursor: 'pointer', minWidth: 75 }}
                                     tabIndex={0}
-                                    disabled={!field.value && (!sigPadRef.current || sigPadRef.current.isEmpty())}
+                                    disabled={(!field.value && (!sigPadRef.current || sigPadRef.current.isEmpty()))}
                                 >
                                     Confirm
                                 </button>
