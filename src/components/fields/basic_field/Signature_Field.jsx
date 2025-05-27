@@ -3,7 +3,7 @@ import SignatureCanvas from "react-signature-canvas"
 
 const SignatureField = ({ field, label, onUpdate, onDelete, isPreview }) => {
     const sigPadRef = useRef(null)
-    const [locked, setLocked] = React.useState(false)
+    const locked = !!field.locked;
 
 
     // Only save signature when user confirms
@@ -11,7 +11,7 @@ const SignatureField = ({ field, label, onUpdate, onDelete, isPreview }) => {
         if (sigPadRef.current) {
             const dataUrl = sigPadRef.current.getTrimmedCanvas().toDataURL("image/png")
             onUpdate("value", dataUrl)
-            setLocked(true)
+            onUpdate("locked", true)
         }
     }
 
@@ -19,7 +19,7 @@ const SignatureField = ({ field, label, onUpdate, onDelete, isPreview }) => {
         if (sigPadRef.current) {
             sigPadRef.current.clear()
             onUpdate("value", "")
-            setLocked(false)
+            onUpdate("locked", false)
         }
     }
 
