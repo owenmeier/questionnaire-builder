@@ -1,10 +1,21 @@
-import React, { useRef } from "react"
+import React, { useRef, useState, useEffect } from "react"
 import SignatureCanvas from "react-signature-canvas"
 
 const SignatureField = ({ field, label, onUpdate, onDelete, isPreview }) => {
     const sigPadRef = useRef(null)
     const fileInputRef = useRef(null)
     const locked = !!field.locked;
+    const [sigChanged, setSigChanged] = useState(0);
+    const [pendingLock, setPendingLock] = useState(false);
+
+    useEffect(() => {
+        if (pendingLock && field.value) {
+            onUpdate("locked", true);
+            setPendingLock(false);
+        }
+    }, [pendingLock, field.value, onUpdate]);
+
+
 
 
 
@@ -82,10 +93,7 @@ const handleClear = () => {
                                 penColor="black"
                                 canvasProps={{ width: 400, height: 96, className: "border border-gray-400 rounded bg-gray-50" }}
                                 readOnly={locked}
-                                onEnd={() => {
-                                    // We don't auto-save on drawing - user must click Confirm
-                                    // This empty handler prevents the default behavior
-                                }}
+                                onEnd={() => setSigChanged(c => c + 1)}
                             />
                         )}
                         <div className="flex mt-2 space-x-2">
@@ -109,18 +117,22 @@ const handleClear = () => {
                                 <button
                                     type="button"
                                     onClick={() => {
-                                        // If drawing on canvas and it's not empty, save it first
+                                        alert('Confirm button clicked');
+                                        // If there is a value (drawn or uploaded), lock it
+                                        if (field.value) {
+                                            onUpdate("locked", true);
+                                            return;
+                                        }
+                                        // If drawing on canvas and it's not empty, save the image as value
                                         if (sigPadRef.current && !sigPadRef.current.isEmpty()) {
                                             const dataUrl = sigPadRef.current.getTrimmedCanvas().toDataURL("image/png");
                                             onUpdate("value", dataUrl);
                                         }
-                                        // Then lock it
-                                        onUpdate("locked", true);
                                     }}
                                     className="px-3 py-2 bg-green-600 text-white rounded shadow hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 transition"
                                     style={{ cursor: 'pointer', minWidth: 75 }}
                                     tabIndex={0}
-                                    disabled={(!field.value && (!sigPadRef.current || sigPadRef.current.isEmpty()))}
+                                    disabled={locked || ((sigPadRef.current?.isEmpty?.() ?? true) && !field.value)}
                                 >
                                     Confirm
                                 </button>
