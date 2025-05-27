@@ -1,7 +1,11 @@
+
+
 import InputField from "./basic_field/TextInput_Field"
 import RadioField from "./basic_field/Radio_Field"
 import CheckField from "./basic_field/Check_Field"
 import SelectionField from "./basic_field/DropDown_Field"
+import SignatureField from "./basic_field/Signature_Field"
+
 
 const fieldTypes = {
     input: {
@@ -44,31 +48,15 @@ const fieldTypes = {
         },
     },
 
-    // import EnableWhenField from "./adv_field/EnableWhen_Field"
-    // enableWhen: {
-    //     label: "Enable When",
-    //     component: EnableWhenField,
-    //     defaultProps: {
-    //         fieldType: "enableWhen",
-    //         question: "New EnableWhen Condition",
-    //         condition: {
-    //             fieldId: null,
-    //             value: "", 
-    //         },
-    //         field1: {
-    //             id: "child-field1-id",
-    //             fieldType: "input", 
-    //             question: "Child Field 1",
-    //             answer: "",
-    //         },
-    //         field2: {
-    //             id: "child-field2-id",
-    //             fieldType: "input", 
-    //             question: "Child Field 2",
-    //             answer: "",
-    //         },
-    //     },
-    // },
+    signature: {
+        label: "Signature Field",
+        component: SignatureField,
+        defaultProps: {
+            fieldType: "signature",
+            question: "Please sign below:",
+            value: "",
+        },
+    },
 }
 
 export default fieldTypes
