@@ -19,11 +19,11 @@ const FormBuilder = ({ formData, setFormData, isPreview, setIsPreview }) => {
     }
 
     const updateField = (id, key, value) => {
-        setFormData(
-            formData.map((field) =>
+        setFormData(prevFields =>
+            prevFields.map((field) =>
                 field.id === id ? { ...field, [key]: value } : field
             )
-        )
+        );
     }
 
 
