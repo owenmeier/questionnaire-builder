@@ -108,19 +108,29 @@ const handleClear = () => {
                             {!locked && (
                                 <button
                                     type="button"
-                                    onClick={() => {
-                                        // If drawing on canvas and it's not empty, save it first
-                                        if (sigPadRef.current && !sigPadRef.current.isEmpty()) {
-                                            const dataUrl = sigPadRef.current.getTrimmedCanvas().toDataURL("image/png");
-                                            onUpdate("value", dataUrl);
+                                onClick={() => {
+                                        // Always try to save the signature, even if we think it's empty
+                                        if (sigPadRef.current) {
+                                            try {
+                                                const isEmpty = sigPadRef.current.isEmpty();
+                                                console.log("Signature pad isEmpty?", isEmpty);
+                                                
+                                                // Save regardless of what isEmpty reports
+                                                const dataUrl = sigPadRef.current.getTrimmedCanvas().toDataURL("image/png");
+                                                console.log("Generated data URL", dataUrl.substring(0, 50) + "...");
+                                                onUpdate("value", dataUrl);
+                                            } catch (err) {
+                                                console.error("Error saving signature:", err);
+                                            }
                                         }
-                                        // Then lock it
+                                        // Always lock it
                                         onUpdate("locked", true);
                                     }}
                                     className="px-3 py-2 bg-green-600 text-white rounded shadow hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 transition"
                                     style={{ cursor: 'pointer', minWidth: 75 }}
                                     tabIndex={0}
-                                    disabled={(!field.value && (!sigPadRef.current || sigPadRef.current.isEmpty()))}
+                                    // Enable confirm button whenever there's a pad to sign on
+                                    disabled={false}
                                 >
                                     Confirm
                                 </button>
