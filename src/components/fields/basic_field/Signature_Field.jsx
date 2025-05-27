@@ -81,7 +81,7 @@ const handleClear = () => {
                                 ref={sigPadRef}
                                 penColor="black"
                                 canvasProps={{ width: 400, height: 96, className: "border border-gray-400 rounded bg-gray-50" }}
-                                readOnly={!!locked}
+                                readOnly={locked}
                                 onEnd={() => {
                                     if (sigPadRef.current && !locked) {
                                         // Don't auto-save on drawing - user must click Confirm
