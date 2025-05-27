@@ -62,34 +62,16 @@ const handleClear = () => {
                         </div>
                         <div className="mb-2 text-sm text-gray-700 font-medium">Or create a new signature below:</div>
                         {field.value ? (
-                            <div className="relative inline-block">
-                                <img
-                                    src={field.value}
-                                    alt="Signature"
-                                    className="border border-gray-400 rounded h-24 bg-gray-50"
-                                    style={{ cursor: 'pointer' }}
-                                    onError={e => {
-                                        // If the image fails to load, clear the value
-                                        onUpdate("value", "");
-                                    }}
-                                />
-                                <button
-                                    type="button"
-                                    className="absolute top-1 right-1 bg-white bg-opacity-80 border border-gray-300 rounded-full px-2 py-0.5 text-xs text-red-600 shadow hover:bg-red-100"
-                                    style={{ zIndex: 10 }}
-                                    onMouseDown={e => {
-                                        e.preventDefault();
-                                        e.stopPropagation();
-                                        onUpdate("value", "");
-                                        onUpdate("locked", false);
-                                        if (fileInputRef.current) fileInputRef.current.value = "";
-                                        if (sigPadRef.current && sigPadRef.current.clear) sigPadRef.current.clear();
-                                    }}
-                                    tabIndex={0}
-                                >
-                                    ×
-                                </button>
-                            </div>
+                            <img
+                                src={field.value}
+                                alt="Signature"
+                                className="border border-gray-400 rounded h-24 bg-gray-50"
+                                style={{ cursor: 'pointer' }}
+                                onError={e => {
+                                    // If the image fails to load, clear the value
+                                    onUpdate("value", "");
+                                }}
+                            />
                         ) : (
                             <SignatureCanvas
                                 ref={sigPadRef}
