@@ -65,7 +65,8 @@ const handleClear = () => {
                                 ? "Signature locked (click Clear to make changes):" 
                                 : "Or create a new signature below:"}
                         </div>
-                        {field.value ? (
+                        {/* Show image when there's a value OR when the pad is locked */}
+                        {(field.value || locked) ? (
                             <img
                                 src={field.value}
                                 alt="Signature"
