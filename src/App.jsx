@@ -1,6 +1,7 @@
 import React, { useState } from "react"
+
 import FormBuilder from "./components/FormBuilderMain"
-import Header from "./components/Header" 
+import Header from "./components/Header"
 
 const App = () => {
     const [formData, setFormData] = useState([])
@@ -13,11 +14,13 @@ const App = () => {
                 setFormData={setFormData}
             />
 
+
             <FormBuilder
                 formData={formData}
                 setFormData={setFormData}
                 isPreview={isPreview}
-                setIsPreview={setIsPreview} />
+                setIsPreview={setIsPreview}
+            />
         </div>
     )
 }
