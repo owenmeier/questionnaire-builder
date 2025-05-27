@@ -3,17 +3,26 @@ import SignatureCanvas from "react-signature-canvas"
 
 const SignatureField = ({ field, label, onUpdate, onDelete, isPreview }) => {
     const sigPadRef = useRef(null)
+    const fileInputRef = useRef(null)
     const locked = !!field.locked;
 
 
 
-    const handleClear = () => {
-        if (sigPadRef.current) {
-            sigPadRef.current.clear()
-            onUpdate("value", "")
-            onUpdate("locked", false)
-        }
+const handleClear = () => {
+    // Remove the value and unlock first
+    onUpdate("value", "");
+    onUpdate("locked", false);
+
+    // Reset the file input (if present)
+    if (fileInputRef.current) {
+        fileInputRef.current.value = "";
     }
+
+    // Clear the signature pad (if present)
+    if (sigPadRef.current && sigPadRef.current.clear) {
+        sigPadRef.current.clear();
+    }
+}
 
     return (
         <div className="p-4 bg-white rounded shadow">
@@ -26,7 +35,6 @@ const SignatureField = ({ field, label, onUpdate, onDelete, isPreview }) => {
             <div className="mb-2">
                 <span className="block mb-1 font-medium">{field.question || "Please sign below:"}</span>
                 {isPreview ? (
-                    // Preview mode: upload or draw signature
                     <div>
                         <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-2">
                             <label className="block text-sm font-medium mb-1 sm:mb-0">Upload existing signature (PNG):</label>
@@ -34,6 +42,7 @@ const SignatureField = ({ field, label, onUpdate, onDelete, isPreview }) => {
                                 style={{ pointerEvents: locked ? 'none' : 'auto' }}>
                                 Choose File
                                 <input
+                                    ref={fileInputRef}
                                     type="file"
                                     accept="image/png"
                                     className="hidden"
@@ -53,7 +62,34 @@ const SignatureField = ({ field, label, onUpdate, onDelete, isPreview }) => {
                         </div>
                         <div className="mb-2 text-sm text-gray-700 font-medium">Or create a new signature below:</div>
                         {field.value ? (
-                            <img src={field.value} alt="Signature" className="border border-gray-400 rounded h-24 bg-gray-50" />
+                            <div className="relative inline-block">
+                                <img
+                                    src={field.value}
+                                    alt="Signature"
+                                    className="border border-gray-400 rounded h-24 bg-gray-50"
+                                    style={{ cursor: 'pointer' }}
+                                    onError={e => {
+                                        // If the image fails to load, clear the value
+                                        onUpdate("value", "");
+                                    }}
+                                />
+                                <button
+                                    type="button"
+                                    className="absolute top-1 right-1 bg-white bg-opacity-80 border border-gray-300 rounded-full px-2 py-0.5 text-xs text-red-600 shadow hover:bg-red-100"
+                                    style={{ zIndex: 10 }}
+                                    onMouseDown={e => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        onUpdate("value", "");
+                                        onUpdate("locked", false);
+                                        if (fileInputRef.current) fileInputRef.current.value = "";
+                                        if (sigPadRef.current && sigPadRef.current.clear) sigPadRef.current.clear();
+                                    }}
+                                    tabIndex={0}
+                                >
+                                    ×
+                                </button>
+                            </div>
                         ) : (
                             <SignatureCanvas
                                 ref={sigPadRef}
@@ -63,14 +99,26 @@ const SignatureField = ({ field, label, onUpdate, onDelete, isPreview }) => {
                             />
                         )}
                         <div className="flex mt-2 space-x-2">
-                            <button onClick={handleClear} className="px-2 py-1 bg-gray-200 rounded text-sm" disabled={locked}>Clear</button>
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    onUpdate("value", "");
+                                    onUpdate("locked", false);
+                                    if (fileInputRef.current) fileInputRef.current.value = "";
+                                    if (sigPadRef.current && sigPadRef.current.clear) sigPadRef.current.clear();
+                                }}
+                                className="px-4 py-2 bg-red-500 text-white rounded shadow hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-50 transition"
+                                style={{ cursor: 'pointer', minWidth: 80 }}
+                                tabIndex={0}
+                            >
+                                Clear
+                            </button>
                         </div>
                         {locked && (
                             <div className="text-green-600 mt-2 text-sm">Signature locked. Clear to re-sign.</div>
                         )}
                     </div>
                 ) : (
-                    // Editor mode: placeholder only
                     <div className="border border-gray-400 rounded h-24 bg-gray-50 flex items-center justify-center text-gray-400">
                         Signature pad placeholder (editor only)
                     </div>
