@@ -9,11 +9,8 @@ const SignatureField = ({ field, label, onUpdate, onDelete, isPreview }) => {
     const [pendingLock, setPendingLock] = useState(false);
 
     useEffect(() => {
-        if (pendingLock && field.value) {
-            onUpdate("locked", true);
-            setPendingLock(false);
-        }
-    }, [pendingLock, field.value, onUpdate]);
+        // No longer needed: locking is handled directly after value update
+    }, []);
 
 
 
@@ -63,6 +60,7 @@ const handleClear = () => {
                                             const reader = new window.FileReader();
                                             reader.onload = (ev) => {
                                                 onUpdate("value", ev.target.result);
+                                                onUpdate("locked", true);
                                             };
                                             reader.readAsDataURL(file);
                                         }
@@ -115,20 +113,20 @@ const handleClear = () => {
                             
                             {!locked && (
                                 <button
-                                    type="button"
-                                    onClick={() => {
-                                        alert('Confirm button clicked');
-                                        // If there is a value (drawn or uploaded), lock it
-                                        if (field.value) {
-                                            onUpdate("locked", true);
-                                            return;
-                                        }
-                                        // If drawing on canvas and it's not empty, save the image as value
-                                        if (sigPadRef.current && !sigPadRef.current.isEmpty()) {
-                                            const dataUrl = sigPadRef.current.getTrimmedCanvas().toDataURL("image/png");
-                                            onUpdate("value", dataUrl);
-                                        }
-                                    }}
+                                type="button"
+                                onClick={() => {
+                                    // If there is a value (drawn or uploaded), lock it
+                                    if (field.value) {
+                                        onUpdate("locked", true);
+                                        return;
+                                    }
+                                    // If drawing on canvas and it's not empty, save the image as value and lock it
+                                    if (sigPadRef.current && !sigPadRef.current.isEmpty()) {
+                                        const dataUrl = sigPadRef.current.getCanvas().toDataURL("image/png");
+                                        onUpdate("value", dataUrl);
+                                        onUpdate("locked", true);
+                                    }
+                                }}
                                     className="px-3 py-2 bg-green-600 text-white rounded shadow hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 transition"
                                     style={{ cursor: 'pointer', minWidth: 75 }}
                                     tabIndex={0}
