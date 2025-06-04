@@ -13,10 +13,13 @@
     "@formulajs/formulajs": "^4.5.1",
     "@tailwindcss/vite": "^4.0.6",
     "framer-motion": "^12.4.2",
+    "grunt": "^1.6.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.53.2",
     "react-signature-canvas": "^1.1.0-alpha.2",
+    "survey-core": "^2.1.0",
+    "survey-react-ui": "^2.1.0",
     "uuid": "^11.0.4"
   },
   "devDependencies": {
