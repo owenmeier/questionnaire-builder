@@ -8,59 +8,37 @@ import fieldTypes from "./fields/fieldTypes-config";
 import MobileToolBar from "./MobileToolBar";
 
 // Utility: Map your formData to SurveyJS JSON
+
 function formDataToSurveyJson(formData) {
+  const typeMap = {
+    input: "text",
+    radio: "radiogroup",
+    check: "checkbox",
+    selection: "dropdown",
+    signature: "signaturepad",
+  };
+
+  const elements = formData.map(field => {
+    const type = typeMap[field.fieldType];
+    if (!type) return null;
+    const base = {
+      type,
+      name: field.id,
+      title: field.question || (type === "signaturepad" ? "Please sign below:" : "Untitled Question"),
+      isRequired: !!field.required,
+    };
+    if (["radiogroup", "checkbox", "dropdown"].includes(type)) {
+      return {
+        ...base,
+        choices: (field.options || []).map(opt => opt.value),
+      };
+    }
+    return base;
+  }).filter(Boolean);
+
   return {
     title: "My Questionnaire",
-    pages: [
-      {
-        elements: formData
-          .map((field) => {
-            switch (field.fieldType) {
-              case "input":
-                return {
-                  type: "text",
-                  name: field.id,
-                  title: field.question || "Untitled Question",
-                  isRequired: !!field.required,
-                };
-              case "radio":
-                return {
-                  type: "radiogroup",
-                  name: field.id,
-                  title: field.question || "Untitled Question",
-                  choices: (field.options || []).map((opt) => opt.value),
-                  isRequired: !!field.required,
-                };
-              case "check":
-                return {
-                  type: "checkbox",
-                  name: field.id,
-                  title: field.question || "Untitled Question",
-                  choices: (field.options || []).map((opt) => opt.value),
-                  isRequired: !!field.required,
-                };
-              case "selection":
-                return {
-                  type: "dropdown",
-                  name: field.id,
-                  title: field.question || "Untitled Question",
-                  choices: (field.options || []).map((opt) => opt.value),
-                  isRequired: !!field.required,
-                };
-              case "signature":
-                return {
-                  type: "signaturepad",
-                  name: field.id,
-                  title: field.question || "Please sign below:",
-                  isRequired: !!field.required,
-                };
-              default:
-                return null;
-            }
-          })
-          .filter(Boolean),
-      },
-    ],
+    pages: [ { elements } ],
   };
 }
 
