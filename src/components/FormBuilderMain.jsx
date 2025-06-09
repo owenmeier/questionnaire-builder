@@ -5,7 +5,6 @@ import "survey-core/survey-core.min.css";
 import { v4 as uuidv4 } from "uuid";
 import { initializeField } from "../utils/initializedFieldOptions";
 import fieldTypes from "./fields/fieldTypes-config";
-import MobileToolBar from "./MobileToolBar";
 
 // Utility: Map your formData to SurveyJS JSON
 
@@ -18,44 +17,39 @@ function formDataToSurveyJson(formData) {
     signature: "signaturepad",
   };
 
-  const elements = formData.map(field => {
-    const type = typeMap[field.fieldType];
-    if (!type) return null;
-    const base = {
-      type,
-      name: field.id,
-      title: field.question || (type === "signaturepad" ? "Please sign below:" : "Untitled Question"),
-      isRequired: !!field.required,
-    };
-    if (["radiogroup", "checkbox", "dropdown"].includes(type)) {
-      return {
-        ...base,
-        choices: (field.options || []).map(opt => opt.value),
+  const elements = formData
+    .map((field) => {
+      const type = typeMap[field.fieldType];
+      if (!type) return null;
+      const base = {
+        type,
+        name: field.id,
+        title:
+          field.question ||
+          (type === "signaturepad"
+            ? "Please sign below:"
+            : "Untitled Question"),
+        isRequired: !!field.required,
       };
-    }
-    return base;
-  }).filter(Boolean);
+      if (["radiogroup", "checkbox", "dropdown"].includes(type)) {
+        return {
+          ...base,
+          choices: (field.options || []).map((opt) => opt.value),
+        };
+      }
+      return base;
+    })
+    .filter(Boolean);
 
   return {
     title: "My Questionnaire",
-    pages: [ { elements } ],
+    pages: [{ elements }],
   };
 }
 
-const FormBuilder = ({ formData, setFormData, isPreview, setIsPreview }) => {
-  // Add field to formData
-  const addField = (type) => {
-    const fieldTemplate = fieldTypes[type]?.defaultProps;
-    if (fieldTemplate) {
-      const initializedField = initializeField({
-        ...fieldTemplate,
-        id: uuidv4(),
-      });
-      setFormData((prev) => [...prev, initializedField]);
-    } else {
-      alert("Unknown field type");
-    }
-  };
+
+// Now addField and fieldTypes are passed as props from App.jsx
+const FormBuilder = ({ formData, setFormData, isPreview, setIsPreview, addField, fieldTypes }) => {
 
   // Update field in formData
   const updateField = (id, key, value) => {
@@ -76,15 +70,6 @@ const FormBuilder = ({ formData, setFormData, isPreview, setIsPreview }) => {
 
   return (
     <div className="formBuilderMain pt-8 px-4 pb-20">
-      {/* MOBILE TOOL BAR COMPONENT */}
-      <MobileToolBar
-        addField={addField}
-        fieldTypes={fieldTypes}
-        formData={formData}
-        isPreview={isPreview}
-        setIsPreview={setIsPreview}
-      />
-
       {/* MAIN FORM COMPONENT: Custom builder in edit mode, SurveyJS in preview mode */}
       {isPreview ? (
         <Survey model={new Model(surveyJson)} />
