@@ -47,10 +47,15 @@ function formDataToSurveyJson(formData) {
   };
 }
 
-
 // Now addField and fieldTypes are passed as props from App.jsx
-const FormBuilder = ({ formData, setFormData, isPreview, setIsPreview, addField, fieldTypes }) => {
-
+const FormBuilder = ({
+  formData,
+  setFormData,
+  isPreview,
+  setIsPreview,
+  addField,
+  fieldTypes,
+}) => {
   // Update field in formData
   const updateField = (id, key, value) => {
     setFormData((prevFields) =>
@@ -69,17 +74,17 @@ const FormBuilder = ({ formData, setFormData, isPreview, setIsPreview, addField,
   const surveyJson = useMemo(() => formDataToSurveyJson(formData), [formData]);
 
   return (
-    <div className="formBuilderMain pt-8 px-4 pb-20">
+    <div className="formBuilderMain pt-8 px-4 pb-20 flex flex-col items-center">
       {/* MAIN FORM COMPONENT: Custom builder in edit mode, SurveyJS in preview mode */}
       {isPreview ? (
         <Survey model={new Model(surveyJson)} />
       ) : (
-        <div>
+        <div className="w-full md:w-1/2 lg:w-1/2 flex flex-col items-center">
           {formData.map((field) => {
             const FieldComponent = fieldTypes[field.fieldType]?.component;
             return (
               FieldComponent && (
-                <div key={field.id} className="mb-4">
+                <div key={field.id} className="mb-4 w-full">
                   <FieldComponent
                     field={field}
                     label={fieldTypes[field.fieldType]?.label}
