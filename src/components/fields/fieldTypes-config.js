@@ -11,6 +11,7 @@ const fieldTypes = {
     defaultProps: {
       fieldType: "input",
       question: "",
+      description: "",
       answer: "",
     },
   },
@@ -20,6 +21,7 @@ const fieldTypes = {
     defaultProps: {
       fieldType: "radio",
       question: "",
+      description: "",
       options: ["", "", ""],
       selected: null,
     },
@@ -30,6 +32,7 @@ const fieldTypes = {
     defaultProps: {
       fieldType: "check",
       question: "",
+      description: "",
       options: ["", "", ""],
       selected: [],
     },
@@ -40,6 +43,7 @@ const fieldTypes = {
     defaultProps: {
       fieldType: "selection",
       question: "",
+      description: "",
       options: ["", "", ""],
       selected: null,
     },
@@ -51,6 +55,7 @@ const fieldTypes = {
     defaultProps: {
       fieldType: "signature",
       question: "Please sign below:",
+      description: "",
       value: "",
     },
   },

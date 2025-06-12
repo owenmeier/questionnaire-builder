@@ -44,6 +44,22 @@ const SignatureField = ({ field, label, onUpdate, onDelete, isPreview }) => {
         <span className="block mb-1 font-medium">
           {field.question || "Please sign below:"}
         </span>
+        {/* Description Field */}
+        {isPreview ? (
+          field.description && (
+            <div className="text-gray-500 text-sm mb-2 w-full">
+              {field.description}
+            </div>
+          )
+        ) : (
+          <input
+            className="px-3 py-2 w-full border border-black/20 rounded text-sm mb-2"
+            type="text"
+            value={field.description || ""}
+            onChange={(e) => onUpdate("description", e.target.value)}
+            placeholder="Description (optional)"
+          />
+        )}
         {isPreview ? (
           <div>
             <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-2">

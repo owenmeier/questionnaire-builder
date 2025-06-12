@@ -30,6 +30,7 @@ function formDataToSurveyJson(formData) {
             ? "Please sign below:"
             : "Untitled Question"),
         isRequired: !!field.required,
+        description: field.description || undefined,
       };
       if (["radiogroup", "checkbox", "dropdown"].includes(type)) {
         return {
