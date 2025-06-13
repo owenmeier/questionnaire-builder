@@ -43,7 +43,11 @@ function formDataToSurveyJson(formData) {
     .filter(Boolean);
 
   return {
-    title: "My Questionnaire",
+    title: (
+      // Use a div to wrap the title in SurveyJS preview mode for custom width
+      // SurveyJS expects a string, but we can use CSS to target the title
+      "My Questionnaire"
+    ),
     pages: [{ elements }],
   };
 }
@@ -57,6 +61,43 @@ const FormBuilder = ({
   addField,
   fieldTypes,
 }) => {
+  // Migration: Ensure all fields have a unique, non-empty, and non-duplicate id (for legacy/imported data)
+  const migratedRef = React.useRef(false);
+  // Check for missing or empty IDs
+  const hasMissingId = formData.some(
+    (field) => !field.id || typeof field.id !== 'string' || field.id.trim() === ''
+  );
+  // Check for duplicate IDs
+  const idCounts = formData.reduce((acc, field) => {
+    if (field.id) acc[field.id] = (acc[field.id] || 0) + 1;
+    return acc;
+  }, {});
+  const hasDuplicateId = Object.values(idCounts).some((count) => count > 1);
+  const needsMigration = hasMissingId || hasDuplicateId;
+
+  React.useEffect(() => {
+    if (migratedRef.current) return;
+    if (needsMigration) {
+      // Assign new UUIDs to missing/empty IDs and to duplicates
+      const seen = new Set();
+      const updatedFields = formData.map((field) => {
+        let newId = field.id;
+        if (!newId || typeof newId !== 'string' || newId.trim() === '' || seen.has(newId)) {
+          newId = uuidv4();
+        }
+        seen.add(newId);
+        return { ...field, id: newId };
+      });
+      setFormData(updatedFields);
+      migratedRef.current = true;
+    }
+  }, [needsMigration, formData, setFormData]);
+
+  // Memoize survey JSON for performance (must be before any early return)
+  const surveyJson = useMemo(() => formDataToSurveyJson(formData), [formData]);
+
+  // Block rendering until migration is done
+  if (needsMigration) return null;
   // Update field in formData
   const updateField = (id, key, value) => {
     setFormData((prevFields) =>
@@ -71,14 +112,15 @@ const FormBuilder = ({
     setFormData((prev) => prev.filter((field) => field.id !== id));
   };
 
-  // Memoize survey JSON for performance
-  const surveyJson = useMemo(() => formDataToSurveyJson(formData), [formData]);
+  // (Removed duplicate surveyJson declaration)
 
   return (
     <div className="formBuilderMain pt-8 px-4 pb-20 flex flex-col items-center">
       {/* MAIN FORM COMPONENT: Custom builder in edit mode, SurveyJS in preview mode */}
       {isPreview ? (
-        <Survey model={new Model(surveyJson)} />
+        <div className="w-full md:w-1/2 lg:w-1/2 flex flex-col items-center">
+          <Survey model={new Model(surveyJson)} />
+        </div>
       ) : (
         <div className="w-full md:w-1/2 lg:w-1/2 flex flex-col items-center">
           {formData.map((field) => {
