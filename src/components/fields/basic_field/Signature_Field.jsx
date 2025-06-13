@@ -31,6 +31,11 @@ const SignatureField = ({ field, label, onUpdate, onDelete, isPreview }) => {
       <div className="mb-2 flex items-center">
         <span className="block mb-1 font-medium">
           {field.question || "Please sign below:"}
+          {isPreview && field.required && (
+            <span className="text-red-500 ml-1" title="Required">
+              *
+            </span>
+          )}
         </span>
         {!isPreview && (
           <label className="ml-3 flex items-center text-sm select-none">
@@ -39,10 +44,14 @@ const SignatureField = ({ field, label, onUpdate, onDelete, isPreview }) => {
               type="button"
               aria-pressed={!!field.required}
               onClick={() => onUpdate("required", !field.required)}
-              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 focus:outline-none ${field.required ? 'bg-red-500' : 'bg-gray-300'}`}
+              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 focus:outline-none ${
+                field.required ? "bg-red-500" : "bg-gray-300"
+              }`}
             >
               <span
-                className={`inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform duration-200 ${field.required ? 'translate-x-5' : 'translate-x-1'}`}
+                className={`inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform duration-200 ${
+                  field.required ? "translate-x-5" : "translate-x-1"
+                }`}
               />
             </button>
           </label>
@@ -110,7 +119,7 @@ const SignatureField = ({ field, label, onUpdate, onDelete, isPreview }) => {
               alt="Signature"
               className="border border-gray-400 rounded h-24 bg-gray-50"
               style={{ cursor: "pointer" }}
-              onError={(e) => {
+              onError={() => {
                 onUpdate("value", "");
               }}
             />
