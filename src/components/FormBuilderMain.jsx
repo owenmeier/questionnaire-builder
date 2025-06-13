@@ -43,11 +43,10 @@ function formDataToSurveyJson(formData) {
     .filter(Boolean);
 
   return {
-    title: (
+    title:
       // Use a div to wrap the title in SurveyJS preview mode for custom width
       // SurveyJS expects a string, but we can use CSS to target the title
-      "My Questionnaire"
-    ),
+      "My Questionnaire",
     pages: [{ elements }],
   };
 }
@@ -65,7 +64,8 @@ const FormBuilder = ({
   const migratedRef = React.useRef(false);
   // Check for missing or empty IDs
   const hasMissingId = formData.some(
-    (field) => !field.id || typeof field.id !== 'string' || field.id.trim() === ''
+    (field) =>
+      !field.id || typeof field.id !== "string" || field.id.trim() === ""
   );
   // Check for duplicate IDs
   const idCounts = formData.reduce((acc, field) => {
@@ -82,7 +82,12 @@ const FormBuilder = ({
       const seen = new Set();
       const updatedFields = formData.map((field) => {
         let newId = field.id;
-        if (!newId || typeof newId !== 'string' || newId.trim() === '' || seen.has(newId)) {
+        if (
+          !newId ||
+          typeof newId !== "string" ||
+          newId.trim() === "" ||
+          seen.has(newId)
+        ) {
           newId = uuidv4();
         }
         seen.add(newId);

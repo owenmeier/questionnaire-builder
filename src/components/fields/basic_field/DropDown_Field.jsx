@@ -87,8 +87,8 @@ const SelectionField = ({
         </>
       )}
 
-      {/*FIELD QUESTION BOX */}
-      <div className="flex justify-between mb-2">
+      {/*FIELD QUESTION BOX + REQUIRED TOGGLE*/}
+      <div className="flex justify-between items-center mb-2">
         <input
           className="px-3 py-2 w-full border border-black/40 rounded 
                                 disabled:border-0 disabled:border-b disabled:rounded-none disabled:text-left disabled:px-2"
@@ -98,6 +98,21 @@ const SelectionField = ({
           placeholder="Enter question"
           disabled={isPreview}
         />
+        {!isPreview && (
+          <label className="ml-3 flex items-center text-sm select-none">
+            <span className="text-gray-700 mr-2">Required</span>
+            <button
+              type="button"
+              aria-pressed={!!field.required}
+              onClick={() => onUpdate("required", !field.required)}
+              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 focus:outline-none ${field.required ? 'bg-red-500' : 'bg-gray-300'}`}
+            >
+              <span
+                className={`inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform duration-200 ${field.required ? 'translate-x-5' : 'translate-x-1'}`}
+              />
+            </button>
+          </label>
+        )}
       </div>
       {/*FIELD DESCRIPTION BOX */}
       <div className="flex justify-between mb-2">
