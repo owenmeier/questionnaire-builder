@@ -138,7 +138,7 @@ const Header = ({
           scale: isToolBarExpanded ? 1 : 0.6,
         }}
         transition={{ type: "spring", stiffness: 150, damping: 20 }}
-        className="fixed top-20 left-1/2 transform -translate-x-1/2 w-full max-w-md bg-white border border-gray-200 px-6 py-4 rounded-2xl shadow-xl z-50"
+        className="fixed top-20 left-1/2 transform -translate-x-1/2 w-1/4 max-w-md bg-white border border-gray-200 px-6 py-4 rounded-2xl shadow-xl z-50"
         style={{ pointerEvents: isToolBarExpanded ? "auto" : "none" }}
       >
         <button
@@ -147,13 +147,15 @@ const Header = ({
         >
           <X_ICON />
         </button>
-        <h3 className="font-bold text-lg mb-4">Add Field</h3>
+        <h3 className="font-bold text-lg mb-4 underline underline-offset-4">
+          Add Field
+        </h3>
         <div className="grid grid-cols-1 gap-2">
           {fieldTypes && typeof fieldTypes === "object" ? (
             Object.keys(fieldTypes).map((type) => (
               <button
                 key={type}
-                className="px-4 pl-6 py-2 text-black text-left rounded hover:bg-slate-50"
+                className="px-4 pl-6 py-2 text-black text-lg text-left rounded hover:bg-slate-100"
                 onClick={() => {
                   addField(type);
                   setIsToolBarExpanded(false);
