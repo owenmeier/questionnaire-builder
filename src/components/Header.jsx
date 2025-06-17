@@ -107,13 +107,13 @@ const Header = ({
           </button>
           {/* Export Button */}
           <button
-            className="px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded cursor-pointer"
+            className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded cursor-pointer"
             onClick={exportData}
           >
             Export
           </button>
           {/* Import Button */}
-          <label className="px-4 py-2 bg-green-500 text-white rounded cursor-pointer">
+          <label className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded cursor-pointer">
             Import
             <input
               className="hidden"
