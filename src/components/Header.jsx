@@ -147,7 +147,7 @@ const Header = ({
         >
           <X_ICON />
         </button>
-        <h3 className="font-bold text-lg mb-4 underline underline-offset-4">
+        <h3 className="px-4 font-bold text-lg mb-4 underline underline-offset-4">
           Add Field
         </h3>
         <div className="grid grid-cols-1 gap-2">
@@ -161,7 +161,7 @@ const Header = ({
                   setIsToolBarExpanded(false);
                 }}
               >
-                Add {fieldTypes[type].label}
+                {fieldTypes[type].label}
               </button>
             ))
           ) : (
