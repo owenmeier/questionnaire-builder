@@ -129,6 +129,7 @@ const FormBuilder = ({
               FieldComponent && (
                 <div key={field.id} className="mb-4 w-full">
                   <FieldComponent
+                    key={field.id}
                     field={field}
                     label={fieldTypes[field.fieldType]?.label}
                     onUpdate={(key, value) => updateField(field.id, key, value)}
