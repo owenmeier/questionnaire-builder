@@ -121,10 +121,26 @@ const FormBuilder = ({
 
   return (
     <div className="formBuilderMain pt-8 px-4 pb-20 flex flex-col items-center">
-      {/* MAIN FORM COMPONENT: Custom builder in edit mode, SurveyJS in preview mode */}
       {isPreview ? (
         <div className="w-full md:w-1/2 lg:w-1/2 flex flex-col items-center">
-          <Survey model={new Model(surveyJson)} />
+          {formData.map((field) => {
+            const FieldComponent = fieldTypes[field.fieldType]?.component;
+            return (
+              FieldComponent && (
+                <div key={field.id} className="mb-4 w-full">
+                  <FieldComponent
+                    key={field.id}
+                    field={field}
+                    label={fieldTypes[field.fieldType]?.label}
+                    onUpdate={(key, value) => updateField(field.id, key, value)}
+                    onDelete={() => deleteField(field.id)}
+                    isPreview={isPreview}
+                    formData={formData}
+                  />
+                </div>
+              )
+            );
+          })}
         </div>
       ) : (
         <div className="w-full md:w-1/2 lg:w-1/2 flex flex-col items-center">
